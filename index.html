@@ -5,13 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Committee Jeopardy</title>
 <meta name="description" content="A clickable Jeopardy board for the Life Gurukula committee." />
-<meta name="theme-color" content="#FDF8EE" />
+<meta name="theme-color" content="#4292C6" />
 <meta name="color-scheme" content="light" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" />
 <style>
   :root {
+    --ocean: #4292C6;
+    --ocean-deep: #23648F;
     --chandan: #FDF8EE;
     --chandan-deep: #F4E9D4;
     --paper: #FFFFFF;
@@ -24,8 +26,9 @@
     --water: #2E86B0;
     --hairline: color-mix(in srgb, var(--ochre) 30%, transparent);
     --radius: 12px;
-    --shadow: 0 6px 16px rgba(33, 26, 18, .09);
-    --shadow-lift: 0 12px 28px rgba(33, 26, 18, .16);
+    --shadow: 0 6px 16px rgba(14, 48, 70, .14);
+    --shadow-lift: 0 12px 28px rgba(14, 48, 70, .24);
+    --scorebar-h: 148px;
     color-scheme: light;
   }
 
@@ -34,7 +37,7 @@
   html, body {
     margin: 0;
     min-height: 100%;
-    background: var(--chandan);
+    background: var(--ocean);
     color: var(--ink);
     font: 400 18px/1.62 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -60,7 +63,7 @@
     padding:
       calc(env(safe-area-inset-top, 0px) + 40px)
       calc(env(safe-area-inset-right, 0px) + 24px)
-      calc(env(safe-area-inset-bottom, 0px) + 56px)
+      calc(env(safe-area-inset-bottom, 0px) + var(--scorebar-h) + 40px)
       calc(env(safe-area-inset-left, 0px) + 24px);
   }
 
@@ -74,7 +77,7 @@
     font-weight: 600;
     letter-spacing: .14em;
     text-transform: uppercase;
-    color: var(--saffron);
+    color: var(--chandan-deep);
     margin-bottom: 8px;
   }
 
@@ -84,14 +87,7 @@
     font-size: clamp(34px, 5.5vw, 52px);
     line-height: 1.15;
     margin: 0;
-    color: var(--ochre);
-  }
-
-  .hero p {
-    max-width: 560px;
-    margin: 10px auto 0;
-    font-size: 17px;
-    color: var(--ink-soft);
+    color: var(--chandan);
   }
 
   .hero::after {
@@ -150,12 +146,13 @@
 
   .tile:hover { box-shadow: var(--shadow-lift); transform: translateY(-2px); }
   .tile:active { transform: translateY(0) scale(.99); }
-  .tile:focus-visible { outline: 3px solid var(--saffron); outline-offset: 2px; }
+  .tile:focus-visible { outline: 3px solid var(--chandan); outline-offset: 2px; }
 
   .tile.used {
-    background: var(--chandan-deep);
+    background: color-mix(in srgb, var(--ocean-deep) 22%, transparent);
+    border-color: color-mix(in srgb, var(--chandan) 30%, transparent);
     border-style: dashed;
-    border-left-color: var(--ink-soft);
+    border-left-color: color-mix(in srgb, var(--chandan) 30%, transparent);
     color: transparent;
     box-shadow: none;
     cursor: default;
@@ -166,15 +163,14 @@
 
   .overlay {
     position: fixed;
-    inset: 0;
+    inset: 0 0 var(--scorebar-h);
     z-index: 30;
     display: none;
     align-items: center;
     justify-content: center;
     padding: 28px 24px;
-    background: color-mix(in srgb, var(--chandan) 96%, transparent);
+    background: color-mix(in srgb, var(--ocean) 92%, transparent);
     backdrop-filter: blur(6px);
-    cursor: pointer;
   }
 
   .overlay.show { display: flex; }
@@ -225,6 +221,66 @@
 
   .overlay.revealed .response { display: block; }
 
+  /* ── Daily double ───────────────────────────────────────── */
+
+  .dd-splash { display: none; }
+  .overlay.wager .dd-splash { display: block; }
+  .overlay.wager .clue,
+  .overlay.wager .tag { display: none; }
+
+  .dd-splash .dd-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 700;
+    font-size: clamp(34px, 6vw, 60px);
+    line-height: 1.1;
+    color: var(--kumkum);
+    margin: 0 0 10px;
+  }
+
+  .dd-splash .dd-sub {
+    margin: 0 0 24px;
+    font-size: 17px;
+    color: var(--ink-soft);
+  }
+
+  .dd-splash label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+
+  .dd-splash input {
+    width: 220px;
+    max-width: 100%;
+    padding: 14px 16px;
+    font: inherit;
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+    font-size: 24px;
+    text-align: center;
+    color: var(--ink);
+    background: var(--chandan);
+    border: 1px solid var(--hairline);
+    border-radius: 10px;
+  }
+
+  .dd-splash input:focus {
+    outline: 3px solid var(--saffron);
+    outline-offset: 1px;
+    background: var(--paper);
+  }
+
+  .tile.daily-double.used {
+    border-left-color: var(--kumkum);
+    border-left-style: solid;
+  }
+
+  /* ── Buttons ────────────────────────────────────────────── */
+
   .btn {
     display: flex;
     align-items: center;
@@ -249,24 +305,180 @@
   .btn:active { transform: scale(.985); }
   .btn:focus-visible { outline: 3px solid var(--saffron); outline-offset: 2px; }
 
+  .board-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+  }
+
   .btn-quiet {
     width: auto;
-    margin: 36px auto 0;
-    padding: 14px 26px;
-    color: var(--ochre);
-    background: var(--paper);
-    border-color: var(--hairline);
+    margin: 0;
+    padding: 14px 24px;
+    min-height: 52px;
+    color: var(--chandan);
+    background: color-mix(in srgb, var(--ocean-deep) 55%, transparent);
+    border-color: color-mix(in srgb, var(--chandan) 45%, transparent);
     box-shadow: none;
   }
 
-  .btn-quiet:hover { background: var(--chandan-deep); }
+  .btn-quiet:hover { background: var(--ocean-deep); }
+
+  /* ── Score bar ──────────────────────────────────────────── */
+
+  .scorebar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    min-height: var(--scorebar-h);
+    background: color-mix(in srgb, var(--chandan) 96%, transparent);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid var(--hairline);
+    padding: 12px 20px calc(env(safe-area-inset-bottom, 0px) + 12px);
+  }
+
+  .scorebar-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 1120px;
+    margin: 0 auto 10px;
+  }
+
+  .awarding {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .awarding b {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 17px;
+    letter-spacing: 0;
+    color: var(--saffron);
+  }
+
+  .add-player {
+    margin-left: auto;
+    min-height: 40px;
+    padding: 8px 16px;
+    font: 600 15px 'Inter', sans-serif;
+    color: var(--ochre);
+    background: var(--paper);
+    border: 1px solid var(--hairline);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .add-player:hover { border-color: var(--saffron); }
+  .add-player:focus-visible { outline: 2px solid var(--saffron); outline-offset: 2px; }
+
+  .players {
+    display: flex;
+    gap: 12px;
+    align-items: stretch;
+    overflow-x: auto;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding-bottom: 4px;
+  }
+
+  .players:empty::after {
+    content: "No players yet — add one to start keeping score.";
+    font-size: 15px;
+    color: var(--ink-soft);
+    padding: 12px 2px;
+  }
+
+  .player {
+    position: relative;
+    flex: 0 0 auto;
+    width: 188px;
+    background: var(--paper);
+    border: 1px solid var(--hairline);
+    border-left: 4px solid var(--water);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 10px 12px 12px;
+  }
+
+  .player input.name {
+    width: 100%;
+    padding: 0 22px 0 0;
+    font: 600 15px 'Inter', sans-serif;
+    color: var(--ochre);
+    background: none;
+    border: 0;
+    border-radius: 4px;
+  }
+
+  .player input.name:focus { outline: 2px solid var(--saffron); outline-offset: 2px; }
+
+  .player .drop-player {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    font-size: 15px;
+    line-height: 1;
+    color: var(--ink-soft);
+    background: none;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: .45;
+  }
+
+  .player .drop-player:hover { opacity: 1; color: var(--kumkum); }
+
+  .player .score {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 1.1;
+    color: var(--ink);
+    margin: 2px 0 8px;
+  }
+
+  .player .score.neg { color: var(--kumkum); }
+
+  .player .pm { display: flex; gap: 8px; }
+
+  .player .pm button {
+    flex: 1;
+    min-height: 44px;
+    font: 700 20px 'Inter', sans-serif;
+    line-height: 1;
+    color: var(--chandan);
+    background: var(--tulsi);
+    border: 1px solid transparent;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: transform .12s ease, opacity .12s ease;
+  }
+
+  .player .pm button.minus { background: var(--kumkum); }
+  .player .pm button:active { transform: scale(.96); }
+  .player .pm button:focus-visible { outline: 3px solid var(--saffron); outline-offset: 2px; }
+  .player .pm button[disabled] { opacity: .3; cursor: default; }
 
   @media (max-width: 720px) {
+    :root { --scorebar-h: 140px; }
     html, body { font-size: 17px; }
     .wrap { padding-left: 16px; padding-right: 16px; }
     .board { gap: 6px; }
     .category { min-height: 66px; padding: 10px 6px; }
     .tile { min-height: 62px; border-left-width: 3px; }
+    .scorebar { padding-left: 14px; padding-right: 14px; }
+    .player { width: 160px; }
   }
 </style>
 </head>
@@ -283,21 +495,37 @@
   <header class="hero">
     <span class="eyebrow">Life Gurukula</span>
     <h1>Committee Jeopardy</h1>
-    <p>Pick a value, read the clue, and answer in the form of a question.</p>
   </header>
 
   <div class="board" id="board"></div>
 
-  <button class="btn btn-quiet" id="reset" type="button">Reset board</button>
+  <div class="board-actions">
+    <button class="btn btn-quiet" id="reset" type="button">Reset board</button>
+    <button class="btn btn-quiet" id="reset-scores" type="button">Reset scores</button>
+  </div>
 </div>
 
 <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="overlay-clue">
   <div class="clue-card" id="clue-card">
+    <div class="dd-splash">
+      <p class="dd-title">Daily Double!</p>
+      <p class="dd-sub">Set the wager, then reveal the clue.</p>
+      <label for="wager">Wager</label>
+      <input type="number" id="wager" step="100" min="0" />
+    </div>
     <span class="tag" id="overlay-tag"></span>
     <p class="clue" id="overlay-clue"></p>
     <p class="response" id="overlay-response"></p>
     <button class="btn" id="overlay-action" type="button">Reveal response</button>
   </div>
+</div>
+
+<div class="scorebar">
+  <div class="scorebar-head">
+    <span class="awarding" id="awarding">Pick a clue to score</span>
+    <button class="add-player" id="add-player" type="button">+ Add player</button>
+  </div>
+  <div class="players" id="players"></div>
 </div>
 
 <script>
@@ -319,9 +547,9 @@
       clues: [
         { value: 100, clue: 'This member is a devoted fan of the K-pop group BTS.', response: 'Who is Priyanka?' },
         { value: 200, clue: 'This member plays the drums in a band.', response: 'Who is Pankajji?' },
-        { value: 300, clue: 'This member is trained in Kuchipudi, a classical Indian dance form.', response: 'Who is Kamala?' },
+        { value: 300, clue: 'This member dances Kuchipudi, a classical Indian form, at a professional level.', response: 'Who is Kamala?' },
         { value: 400, clue: 'Known to carry a boom box and sport a pink Rolex, this member has serious flair.', response: 'Who is Vivekji?' },
-        { value: 500, clue: "This member is associated with the phrase “the sum of my sins.”", response: 'Who is Saloni?' }
+        { value: 500, clue: "This member posted a poem titled “The Sum of My Sins.”", response: 'Who is Saloni?' }
       ]
     },
     {
@@ -330,9 +558,9 @@
       clues: [
         { value: 100, clue: 'This member is moving to India in April.', response: 'Who is Hemant?' },
         { value: 200, clue: 'This member is famous for never quite filling up the gas tank.', response: 'Who is Rajiv?' },
-        { value: 300, clue: "This member goes by the affectionate nickname “Didi.”", response: 'Who is Anuradha?' },
-        { value: 400, clue: 'This member once cared for a cow.', response: 'Who is Shankarji?' },
-        { value: 500, clue: 'This member is a principal at the World Bank.', response: 'Who is Suhasini?' }
+        { value: 300, clue: 'This member runs an organization called DIDI.', response: 'Who is Anuradha?' },
+        { value: 400, clue: 'This member once cared for a cow — and once managed to lose it.', response: 'Who is Shankarji?' },
+        { value: 500, clue: 'On a recent yatra this member picked up the nickname “the Principal.”', response: 'Who is Suhasini?' }
       ]
     },
     {
@@ -359,6 +587,9 @@
     }
   ];
 
+  const DAILY_DOUBLE_COUNT = 2;
+  const STORE_KEY = 'lg-jeopardy-v2';
+
   const board = document.getElementById('board');
   const overlay = document.getElementById('overlay');
   const clueCard = document.getElementById('clue-card');
@@ -366,8 +597,58 @@
   const overlayClue = document.getElementById('overlay-clue');
   const overlayResponse = document.getElementById('overlay-response');
   const overlayAction = document.getElementById('overlay-action');
+  const wagerInput = document.getElementById('wager');
+  const playersEl = document.getElementById('players');
+  const awardingEl = document.getElementById('awarding');
 
+  /* state ------------------------------------------------------------- */
+
+  let players = [];      // { id, name, score }
+  let used = [];         // tile keys, e.g. "2-4"
+  let doubles = [];      // tile keys drawn as daily doubles
   let activeTile = null;
+  let award = null;      // points the +/- buttons currently apply
+
+  const key = (col, row) => col + '-' + row;
+
+  function drawDoubles() {
+    // never on a $100 row, and at most one per category — as on the real board
+    const pool = [];
+    categories.forEach((cat, col) => {
+      for (let row = 1; row < cat.clues.length; row++) pool.push({ col, row });
+    });
+    const picked = [];
+    while (picked.length < DAILY_DOUBLE_COUNT && pool.length) {
+      const i = Math.floor(Math.random() * pool.length);
+      const cell = pool.splice(i, 1)[0];
+      if (picked.some(p => p.col === cell.col)) continue;
+      picked.push(cell);
+    }
+    return picked.map(p => key(p.col, p.row));
+  }
+
+  function save() {
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify({ players, used, doubles }));
+    } catch (e) { /* private mode / blocked storage — the game still works */ }
+  }
+
+  function load() {
+    try {
+      const raw = localStorage.getItem(STORE_KEY);
+      if (!raw) return false;
+      const data = JSON.parse(raw);
+      if (!data || !Array.isArray(data.doubles) || !data.doubles.length) return false;
+      players = Array.isArray(data.players) ? data.players : [];
+      used = Array.isArray(data.used) ? data.used : [];
+      doubles = data.doubles;
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /* board -------------------------------------------------------------- */
 
   function buildBoard() {
     board.innerHTML = '';
@@ -382,33 +663,65 @@
     });
 
     for (let row = 0; row < 5; row++) {
-      categories.forEach(cat => {
+      categories.forEach((cat, col) => {
         const item = cat.clues[row];
+        const id = key(col, row);
         const tile = document.createElement('button');
         tile.type = 'button';
         tile.className = 'tile';
+        if (doubles.includes(id)) tile.classList.add('daily-double');
+        if (used.includes(id)) tile.classList.add('used');
+        tile.dataset.id = id;
         tile.style.setProperty('--accent', cat.accent);
         tile.textContent = '$' + item.value;
-        tile.addEventListener('click', () => openClue(tile, cat, item));
+        tile.addEventListener('click', () => openClue(tile, cat, item, id));
         board.appendChild(tile);
       });
     }
   }
 
-  function openClue(tile, cat, item) {
+  function resetBoard() {
+    used = [];
+    doubles = drawDoubles();
+    save();
+    buildBoard();
+  }
+
+  /* clue flow ----------------------------------------------------------- */
+
+  function openClue(tile, cat, item, id) {
     if (tile.classList.contains('used')) return;
     activeTile = tile;
     clueCard.style.setProperty('--accent', cat.accent);
     overlayTag.textContent = cat.name + ' — $' + item.value;
     overlayClue.textContent = item.clue;
     overlayResponse.textContent = item.response;
-    overlay.classList.remove('revealed');
-    overlayAction.textContent = 'Reveal response';
-    overlay.classList.add('show');
-    overlayAction.focus();
+    overlay.classList.remove('revealed', 'wager');
+
+    if (doubles.includes(id)) {
+      overlay.classList.add('wager');
+      wagerInput.value = item.value;
+      setAward(item.value);
+      overlayAction.textContent = 'Reveal clue';
+      overlay.classList.add('show');
+      wagerInput.focus();
+      wagerInput.select();
+    } else {
+      setAward(item.value);
+      overlayAction.textContent = 'Reveal response';
+      overlay.classList.add('show');
+      overlayAction.focus();
+    }
   }
 
   function advance() {
+    if (overlay.classList.contains('wager')) {
+      setAward(Math.max(0, Math.round(Number(wagerInput.value) || 0)));
+      overlay.classList.remove('wager');
+      overlayAction.textContent = 'Reveal response';
+      overlayAction.focus();
+      return;
+    }
     if (!overlay.classList.contains('revealed')) {
       overlay.classList.add('revealed');
       overlayAction.textContent = 'Close';
@@ -418,23 +731,140 @@
   }
 
   function closeClue() {
-    overlay.classList.remove('show');
+    overlay.classList.remove('show', 'wager', 'revealed');
     if (activeTile) {
       activeTile.classList.add('used');
+      const id = activeTile.dataset.id;
+      if (!used.includes(id)) used.push(id);
       activeTile = null;
+      save();
     }
+    setAward(null);
   }
 
-  overlay.addEventListener('click', advance);
+  overlayAction.addEventListener('click', advance);
 
-  document.addEventListener('keydown', e => {
-    if (!overlay.classList.contains('show')) return;
-    if (e.key === 'Escape') closeClue();
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) closeClue();
   });
 
-  document.getElementById('reset').addEventListener('click', buildBoard);
+  wagerInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); advance(); }
+  });
 
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.classList.contains('show')) closeClue();
+  });
+
+  /* scoring ------------------------------------------------------------- */
+
+  function setAward(value) {
+    award = value;
+    awardingEl.innerHTML = value === null
+      ? 'Pick a clue to score'
+      : 'Awarding <b>$' + value.toLocaleString() + '</b>';
+    playersEl.querySelectorAll('.pm button').forEach(b => { b.disabled = value === null; });
+  }
+
+  function renderPlayers() {
+    playersEl.innerHTML = '';
+
+    players.forEach(player => {
+      const card = document.createElement('div');
+      card.className = 'player';
+
+      const name = document.createElement('input');
+      name.className = 'name';
+      name.type = 'text';
+      name.value = player.name;
+      name.setAttribute('aria-label', 'Player name');
+      name.addEventListener('input', () => { player.name = name.value; save(); });
+      card.appendChild(name);
+
+      const drop = document.createElement('button');
+      drop.className = 'drop-player';
+      drop.type = 'button';
+      drop.textContent = '×';
+      drop.title = 'Remove player';
+      drop.setAttribute('aria-label', 'Remove ' + player.name);
+      drop.addEventListener('click', () => {
+        players = players.filter(p => p.id !== player.id);
+        save();
+        renderPlayers();
+      });
+      card.appendChild(drop);
+
+      const score = document.createElement('div');
+      score.className = 'score';
+      card.appendChild(score);
+
+      const pm = document.createElement('div');
+      pm.className = 'pm';
+
+      const minus = document.createElement('button');
+      minus.className = 'minus';
+      minus.type = 'button';
+      minus.textContent = '−';
+      minus.setAttribute('aria-label', 'Subtract from ' + player.name);
+
+      const plus = document.createElement('button');
+      plus.type = 'button';
+      plus.textContent = '+';
+      plus.setAttribute('aria-label', 'Add to ' + player.name);
+
+      const paint = () => {
+        score.textContent = (player.score < 0 ? '-$' : '$') + Math.abs(player.score).toLocaleString();
+        score.classList.toggle('neg', player.score < 0);
+      };
+
+      const bump = sign => () => {
+        if (award === null) return;
+        player.score += sign * award;
+        paint();
+        save();
+      };
+
+      minus.addEventListener('click', bump(-1));
+      plus.addEventListener('click', bump(1));
+
+      pm.appendChild(minus);
+      pm.appendChild(plus);
+      card.appendChild(pm);
+      paint();
+
+      playersEl.appendChild(card);
+    });
+
+    setAward(award);
+  }
+
+  document.getElementById('add-player').addEventListener('click', () => {
+    players.push({ id: Date.now() + '-' + players.length, name: 'Player ' + (players.length + 1), score: 0 });
+    save();
+    renderPlayers();
+    const last = playersEl.lastElementChild;
+    if (last) {
+      const input = last.querySelector('input.name');
+      input.focus();
+      input.select();
+      last.scrollIntoView({ inline: 'end', block: 'nearest' });
+    }
+  });
+
+  document.getElementById('reset').addEventListener('click', resetBoard);
+
+  document.getElementById('reset-scores').addEventListener('click', () => {
+    players.forEach(p => { p.score = 0; });
+    save();
+    renderPlayers();
+  });
+
+  /* boot ---------------------------------------------------------------- */
+
+  if (!load()) doubles = drawDoubles();
   buildBoard();
+  renderPlayers();
+  save();
 </script>
 </body>
 </html>
