@@ -28,7 +28,9 @@
     --radius: 12px;
     --shadow: 0 6px 16px rgba(14, 48, 70, .14);
     --shadow-lift: 0 12px 28px rgba(14, 48, 70, .24);
-    --scorebar-h: 148px;
+    /* height of the score strip, measured at runtime — the clue overlay
+       stops just above it so scoring stays reachable mid-clue */
+    --score-h: 96px;
     color-scheme: light;
   }
 
@@ -36,7 +38,6 @@
 
   html, body {
     margin: 0;
-    min-height: 100%;
     background: var(--ocean);
     color: var(--ink);
     font: 400 18px/1.62 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -55,56 +56,57 @@
   }
   .paper-grain svg { width: 100%; height: 100%; }
 
+  /* the whole game fits one screen: header and score strip take what they
+     need, the board stretches into the rest */
   .wrap {
     position: relative;
     z-index: 1;
-    max-width: 1120px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 100vh;
+    min-height: 100dvh;
+    max-width: 1220px;
     margin: 0 auto;
     padding:
-      calc(env(safe-area-inset-top, 0px) + 40px)
-      calc(env(safe-area-inset-right, 0px) + 24px)
-      calc(env(safe-area-inset-bottom, 0px) + var(--scorebar-h) + 40px)
-      calc(env(safe-area-inset-left, 0px) + 24px);
+      calc(env(safe-area-inset-top, 0px) + 20px)
+      calc(env(safe-area-inset-right, 0px) + 20px)
+      calc(env(safe-area-inset-bottom, 0px) + 16px)
+      calc(env(safe-area-inset-left, 0px) + 20px);
   }
 
   /* ── Header ─────────────────────────────────────────────── */
 
-  .hero { text-align: center; margin-bottom: 36px; }
+  .hero { flex: none; text-align: center; }
 
   .eyebrow {
-    display: inline-block;
-    font-size: 13px;
+    display: block;
+    font-size: 12px;
     font-weight: 600;
     letter-spacing: .14em;
     text-transform: uppercase;
     color: var(--chandan-deep);
-    margin-bottom: 8px;
+    margin-bottom: 2px;
   }
 
   .hero h1 {
     font-family: 'Fraunces', Georgia, serif;
     font-weight: 600;
-    font-size: clamp(34px, 5.5vw, 52px);
-    line-height: 1.15;
+    font-size: clamp(24px, 3.4vw, 38px);
+    line-height: 1.1;
     margin: 0;
     color: var(--chandan);
-  }
-
-  .hero::after {
-    content: "";
-    display: block;
-    width: 80px;
-    height: 4px;
-    background: var(--saffron);
-    margin: 22px auto 0;
   }
 
   /* ── Board ──────────────────────────────────────────────── */
 
   .board {
+    flex: 1 1 auto;
+    min-height: 0;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
+    grid-auto-rows: 1fr;
+    gap: 8px;
   }
 
   .category {
@@ -112,16 +114,15 @@
     border: 1px solid var(--hairline);
     border-top: 4px solid var(--accent, var(--saffron));
     border-radius: var(--radius);
-    padding: 16px 12px;
-    min-height: 84px;
+    padding: 8px 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     font-family: 'Fraunces', Georgia, serif;
     font-weight: 600;
-    font-size: clamp(13px, 1.5vw, 19px);
-    line-height: 1.25;
+    font-size: clamp(12px, 1.35vw, 18px);
+    line-height: 1.2;
     color: var(--ochre);
   }
 
@@ -129,13 +130,13 @@
     font: inherit;
     font-family: 'Fraunces', Georgia, serif;
     font-weight: 700;
-    font-size: clamp(20px, 3vw, 34px);
+    font-size: clamp(17px, 2.4vw, 32px);
     color: var(--saffron);
     background: var(--paper);
     border: 1px solid var(--hairline);
     border-left: 4px solid var(--accent, var(--saffron));
     border-radius: var(--radius);
-    min-height: 88px;
+    min-height: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -163,12 +164,12 @@
 
   .overlay {
     position: fixed;
-    inset: 0 0 var(--scorebar-h);
+    inset: 0 0 var(--score-h);
     z-index: 30;
     display: none;
     align-items: center;
     justify-content: center;
-    padding: 28px 24px;
+    padding: 24px;
     background: color-mix(in srgb, var(--ocean) 92%, transparent);
     backdrop-filter: blur(6px);
   }
@@ -185,7 +186,7 @@
     border-left: 6px solid var(--accent, var(--saffron));
     border-radius: var(--radius);
     box-shadow: var(--shadow-lift);
-    padding: clamp(28px, 5vw, 48px);
+    padding: clamp(24px, 4vw, 44px);
     text-align: center;
   }
 
@@ -196,13 +197,13 @@
     letter-spacing: .14em;
     text-transform: uppercase;
     color: var(--accent, var(--saffron));
-    margin-bottom: 18px;
+    margin-bottom: 16px;
   }
 
   .clue-card .clue {
     font-family: 'Fraunces', Georgia, serif;
     font-weight: 500;
-    font-size: clamp(22px, 3.4vw, 38px);
+    font-size: clamp(22px, 3.2vw, 36px);
     line-height: 1.35;
     color: var(--ink);
     margin: 0;
@@ -210,12 +211,12 @@
 
   .clue-card .response {
     display: none;
-    margin: 28px 0 0;
-    padding-top: 24px;
+    margin: 24px 0 0;
+    padding-top: 22px;
     border-top: 1px solid var(--hairline);
     font-family: 'Fraunces', Georgia, serif;
     font-weight: 600;
-    font-size: clamp(22px, 3.2vw, 34px);
+    font-size: clamp(21px, 3vw, 32px);
     color: var(--ochre);
   }
 
@@ -231,21 +232,21 @@
   .dd-splash .dd-title {
     font-family: 'Fraunces', Georgia, serif;
     font-weight: 700;
-    font-size: clamp(34px, 6vw, 60px);
+    font-size: clamp(32px, 5vw, 54px);
     line-height: 1.1;
     color: var(--kumkum);
-    margin: 0 0 10px;
+    margin: 0 0 8px;
   }
 
   .dd-splash .dd-sub {
-    margin: 0 0 24px;
-    font-size: 17px;
+    margin: 0 0 20px;
+    font-size: 16px;
     color: var(--ink-soft);
   }
 
   .dd-splash label {
     display: block;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     letter-spacing: .14em;
     text-transform: uppercase;
@@ -254,13 +255,13 @@
   }
 
   .dd-splash input {
-    width: 220px;
+    width: 200px;
     max-width: 100%;
-    padding: 14px 16px;
+    padding: 12px 14px;
     font: inherit;
     font-family: 'Fraunces', Georgia, serif;
     font-weight: 600;
-    font-size: 24px;
+    font-size: 22px;
     text-align: center;
     color: var(--ink);
     background: var(--chandan);
@@ -286,9 +287,9 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 56px;
-    margin-top: 28px;
-    padding: 14px 20px;
+    min-height: 54px;
+    margin-top: 24px;
+    padding: 13px 20px;
     font: inherit;
     font-size: 17px;
     font-weight: 600;
@@ -305,180 +306,154 @@
   .btn:active { transform: scale(.985); }
   .btn:focus-visible { outline: 3px solid var(--saffron); outline-offset: 2px; }
 
-  .board-actions {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-top: 32px;
-  }
-
-  .btn-quiet {
-    width: auto;
-    margin: 0;
-    padding: 14px 24px;
-    min-height: 52px;
+  /* small pills, sitting directly on the blue */
+  .pill {
+    min-height: 34px;
+    padding: 6px 13px;
+    font: 600 13px 'Inter', sans-serif;
     color: var(--chandan);
     background: color-mix(in srgb, var(--ocean-deep) 55%, transparent);
-    border-color: color-mix(in srgb, var(--chandan) 45%, transparent);
-    box-shadow: none;
+    border: 1px solid color-mix(in srgb, var(--chandan) 40%, transparent);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background .12s ease;
   }
 
-  .btn-quiet:hover { background: var(--ocean-deep); }
+  .pill:hover { background: var(--ocean-deep); }
+  .pill:focus-visible { outline: 2px solid var(--chandan); outline-offset: 2px; }
 
-  /* ── Score bar ──────────────────────────────────────────── */
+  /* ── Score strip ────────────────────────────────────────── */
 
-  .scorebar {
-    position: fixed;
-    left: 0;
-    right: 0;
+  .scorezone {
+    flex: none;
+    position: sticky;
     bottom: 0;
     z-index: 40;
-    min-height: var(--scorebar-h);
-    background: color-mix(in srgb, var(--chandan) 96%, transparent);
-    backdrop-filter: blur(8px);
-    border-top: 1px solid var(--hairline);
-    padding: 12px 20px calc(env(safe-area-inset-bottom, 0px) + 12px);
+    background: var(--ocean);
+    padding-bottom: 2px;
   }
 
-  .scorebar-head {
+  .scorehead {
     display: flex;
     align-items: center;
-    gap: 12px;
-    max-width: 1120px;
-    margin: 0 auto 10px;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
   }
 
   .awarding {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
-    letter-spacing: .14em;
+    letter-spacing: .12em;
     text-transform: uppercase;
-    color: var(--ink-soft);
+    color: color-mix(in srgb, var(--chandan) 80%, transparent);
+    margin-right: auto;
   }
 
   .awarding b {
     font-family: 'Fraunces', Georgia, serif;
-    font-size: 17px;
+    font-size: 16px;
     letter-spacing: 0;
-    color: var(--saffron);
+    color: var(--chandan);
   }
-
-  .add-player {
-    margin-left: auto;
-    min-height: 40px;
-    padding: 8px 16px;
-    font: 600 15px 'Inter', sans-serif;
-    color: var(--ochre);
-    background: var(--paper);
-    border: 1px solid var(--hairline);
-    border-radius: 10px;
-    cursor: pointer;
-  }
-
-  .add-player:hover { border-color: var(--saffron); }
-  .add-player:focus-visible { outline: 2px solid var(--saffron); outline-offset: 2px; }
 
   .players {
     display: flex;
-    gap: 12px;
-    align-items: stretch;
-    overflow-x: auto;
-    max-width: 1120px;
-    margin: 0 auto;
-    padding-bottom: 4px;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
   }
 
   .players:empty::after {
-    content: "No players yet — add one to start keeping score.";
-    font-size: 15px;
-    color: var(--ink-soft);
-    padding: 12px 2px;
+    content: "Add a player to keep score.";
+    font-size: 13px;
+    color: color-mix(in srgb, var(--chandan) 78%, transparent);
   }
 
   .player {
-    position: relative;
-    flex: 0 0 auto;
-    width: 188px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
     background: var(--paper);
     border: 1px solid var(--hairline);
     border-left: 4px solid var(--water);
-    border-radius: var(--radius);
+    border-radius: 10px;
     box-shadow: var(--shadow);
-    padding: 10px 12px 12px;
+    padding: 5px 7px 5px 8px;
+  }
+
+  .player .who {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 74px;
   }
 
   .player input.name {
-    width: 100%;
-    padding: 0 22px 0 0;
-    font: 600 15px 'Inter', sans-serif;
+    width: 88px;
+    padding: 0;
+    font: 600 12px/1.25 'Inter', sans-serif;
     color: var(--ochre);
     background: none;
     border: 0;
-    border-radius: 4px;
+    text-overflow: ellipsis;
   }
 
-  .player input.name:focus { outline: 2px solid var(--saffron); outline-offset: 2px; }
-
-  .player .drop-player {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    width: 24px;
-    height: 24px;
-    padding: 0;
-    font-size: 15px;
-    line-height: 1;
-    color: var(--ink-soft);
-    background: none;
-    border: 0;
-    border-radius: 50%;
-    cursor: pointer;
-    opacity: .45;
-  }
-
-  .player .drop-player:hover { opacity: 1; color: var(--kumkum); }
+  .player input.name:focus { outline: 2px solid var(--saffron); outline-offset: 1px; border-radius: 3px; }
 
   .player .score {
     font-family: 'Fraunces', Georgia, serif;
     font-weight: 700;
-    font-size: 30px;
-    line-height: 1.1;
+    font-size: 19px;
+    line-height: 1.15;
     color: var(--ink);
-    margin: 2px 0 8px;
   }
 
   .player .score.neg { color: var(--kumkum); }
 
-  .player .pm { display: flex; gap: 8px; }
+  .player .pm { display: flex; gap: 5px; }
 
   .player .pm button {
-    flex: 1;
-    min-height: 44px;
-    font: 700 20px 'Inter', sans-serif;
-    line-height: 1;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    font: 700 17px/1 'Inter', sans-serif;
     color: var(--chandan);
     background: var(--tulsi);
     border: 1px solid transparent;
-    border-radius: 9px;
+    border-radius: 8px;
     cursor: pointer;
     transition: transform .12s ease, opacity .12s ease;
   }
 
   .player .pm button.minus { background: var(--kumkum); }
-  .player .pm button:active { transform: scale(.96); }
+  .player .pm button:active { transform: scale(.94); }
   .player .pm button:focus-visible { outline: 3px solid var(--saffron); outline-offset: 2px; }
   .player .pm button[disabled] { opacity: .3; cursor: default; }
 
-  @media (max-width: 720px) {
-    :root { --scorebar-h: 140px; }
-    html, body { font-size: 17px; }
-    .wrap { padding-left: 16px; padding-right: 16px; }
-    .board { gap: 6px; }
-    .category { min-height: 66px; padding: 10px 6px; }
-    .tile { min-height: 62px; border-left-width: 3px; }
-    .scorebar { padding-left: 14px; padding-right: 14px; }
-    .player { width: 160px; }
+  .player .drop-player {
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    font: 400 14px/1 'Inter', sans-serif;
+    color: var(--ink-soft);
+    background: none;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: .4;
+    align-self: flex-start;
+  }
+
+  .player .drop-player:hover { opacity: 1; color: var(--kumkum); }
+
+  /* short screens and phones: scroll rather than crush the board */
+  @media (max-height: 560px), (max-width: 720px) {
+    .wrap { min-height: 0; gap: 12px; padding-left: 14px; padding-right: 14px; }
+    .board { grid-auto-rows: minmax(58px, 1fr); gap: 6px; }
+    .scorezone { padding-top: 8px; border-top: 1px solid color-mix(in srgb, var(--chandan) 30%, transparent); }
+    .players { flex-wrap: nowrap; overflow-x: auto; }
+    .player { flex: 0 0 auto; }
   }
 </style>
 </head>
@@ -499,9 +474,14 @@
 
   <div class="board" id="board"></div>
 
-  <div class="board-actions">
-    <button class="btn btn-quiet" id="reset" type="button">Reset board</button>
-    <button class="btn btn-quiet" id="reset-scores" type="button">Reset scores</button>
+  <div class="scorezone" id="scorezone">
+    <div class="scorehead">
+      <span class="awarding" id="awarding">Pick a clue to score</span>
+      <button class="pill" id="add-player" type="button">+ Add player</button>
+      <button class="pill" id="reset-scores" type="button">Reset scores</button>
+      <button class="pill" id="reset" type="button">Reset board</button>
+    </div>
+    <div class="players" id="players"></div>
   </div>
 </div>
 
@@ -520,14 +500,6 @@
   </div>
 </div>
 
-<div class="scorebar">
-  <div class="scorebar-head">
-    <span class="awarding" id="awarding">Pick a clue to score</span>
-    <button class="add-player" id="add-player" type="button">+ Add player</button>
-  </div>
-  <div class="players" id="players"></div>
-</div>
-
 <script>
   const categories = [
     {
@@ -537,7 +509,7 @@
         { value: 100, clue: "This member's family plays cricket at the professional level.", response: 'Who is Vivek?' },
         { value: 200, clue: 'This member has completed six marathons.', response: 'Who is Anuradha?' },
         { value: 300, clue: 'This member has hiked to the summit of Mount Kilimanjaro.', response: 'Who is Rajeshwar?' },
-        { value: 400, clue: 'This member has reportedly weathered six concussions.', response: 'Who is Suman?' },
+        { value: 400, clue: 'This member has reportedly weathered six concussions.', response: 'Who is Sumanji?' },
         { value: 500, clue: 'This member once spent the night sleeping in a postal vehicle.', response: 'Who is Vivekji?' }
       ]
     },
@@ -564,18 +536,18 @@
       ]
     },
     {
-      name: 'Mark Your Calendar',
+      name: 'Mark(ed) Your Calendar',
       accent: 'var(--ochre)',
       clues: [
         { value: 100, clue: 'The first-ever retreat at Life Gurukula was held on this date.', response: 'What is 10/02/25?' },
         { value: 200, clue: 'The keys to the property were handed over on this date.', response: 'What is 08/15/25?' },
-        { value: 300, clue: 'The pooja inauguration took place on this date.', response: 'What is 08/16/25?' },
-        { value: 400, clue: 'The grand inauguration is set for this date.', response: 'What is 11/15/25?' },
-        { value: 500, clue: 'The Gurukula commitment was made on this date.', response: 'What is 03/30/25?' }
+        { value: 300, clue: 'The soft inauguration took place on this date.', response: 'What is 08/16/25?' },
+        { value: 400, clue: 'The main inauguration is set for this date.', response: 'What is 11/15/25?' },
+        { value: 500, clue: 'The commitment to Life Gurukula was made on this date.', response: 'What is 03/30/25?' }
       ]
     },
     {
-      name: 'Our Lady of the Elms',
+      name: 'Life Gurukula History',
       accent: 'var(--water)',
       clues: [
         { value: 100, clue: 'The motherhouse and its two wings span this many square feet — enough to host up to 200 people at a retreat.', response: 'What is 58,000?' },
@@ -598,6 +570,7 @@
   const overlayResponse = document.getElementById('overlay-response');
   const overlayAction = document.getElementById('overlay-action');
   const wagerInput = document.getElementById('wager');
+  const scorezone = document.getElementById('scorezone');
   const playersEl = document.getElementById('players');
   const awardingEl = document.getElementById('awarding');
 
@@ -697,6 +670,7 @@
     overlayClue.textContent = item.clue;
     overlayResponse.textContent = item.response;
     overlay.classList.remove('revealed', 'wager');
+    measureScorezone();
 
     if (doubles.includes(id)) {
       overlay.classList.add('wager');
@@ -773,30 +747,21 @@
       const card = document.createElement('div');
       card.className = 'player';
 
+      const who = document.createElement('div');
+      who.className = 'who';
+
       const name = document.createElement('input');
       name.className = 'name';
       name.type = 'text';
       name.value = player.name;
       name.setAttribute('aria-label', 'Player name');
       name.addEventListener('input', () => { player.name = name.value; save(); });
-      card.appendChild(name);
-
-      const drop = document.createElement('button');
-      drop.className = 'drop-player';
-      drop.type = 'button';
-      drop.textContent = '×';
-      drop.title = 'Remove player';
-      drop.setAttribute('aria-label', 'Remove ' + player.name);
-      drop.addEventListener('click', () => {
-        players = players.filter(p => p.id !== player.id);
-        save();
-        renderPlayers();
-      });
-      card.appendChild(drop);
+      who.appendChild(name);
 
       const score = document.createElement('div');
       score.className = 'score';
-      card.appendChild(score);
+      who.appendChild(score);
+      card.appendChild(who);
 
       const pm = document.createElement('div');
       pm.className = 'pm';
@@ -830,13 +795,35 @@
       pm.appendChild(minus);
       pm.appendChild(plus);
       card.appendChild(pm);
-      paint();
 
+      const drop = document.createElement('button');
+      drop.className = 'drop-player';
+      drop.type = 'button';
+      drop.textContent = '×';
+      drop.title = 'Remove player';
+      drop.setAttribute('aria-label', 'Remove ' + player.name);
+      drop.addEventListener('click', () => {
+        players = players.filter(p => p.id !== player.id);
+        save();
+        renderPlayers();
+      });
+      card.appendChild(drop);
+
+      paint();
       playersEl.appendChild(card);
     });
 
     setAward(award);
+    measureScorezone();
   }
+
+  /* keep the overlay clear of the score strip, whatever height it grows to */
+  function measureScorezone() {
+    document.documentElement.style.setProperty('--score-h', scorezone.offsetHeight + 'px');
+  }
+
+  if (window.ResizeObserver) new ResizeObserver(measureScorezone).observe(scorezone);
+  window.addEventListener('resize', measureScorezone);
 
   document.getElementById('add-player').addEventListener('click', () => {
     players.push({ id: Date.now() + '-' + players.length, name: 'Player ' + (players.length + 1), score: 0 });
@@ -847,7 +834,6 @@
       const input = last.querySelector('input.name');
       input.focus();
       input.select();
-      last.scrollIntoView({ inline: 'end', block: 'nearest' });
     }
   });
 
@@ -864,6 +850,7 @@
   if (!load()) doubles = drawDoubles();
   buildBoard();
   renderPlayers();
+  measureScorezone();
   save();
 </script>
 </body>
