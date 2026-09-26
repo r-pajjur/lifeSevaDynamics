@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Life Gurukula Committee Jeopardy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --jeopardy-blue: #060ce9;
+    --jeopardy-blue-deep: #030880;
+    --board-bg: #0a0a2a;
+    --gold: #d69f4c;
+    --gold-bright: #ffcc00;
+    --tile-gap: 10px;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: var(--board-bg);
+    color: #fff;
+    font-family: 'Oswald', 'Arial Narrow', sans-serif;
+    min-height: 100vh;
+    padding: 24px 16px 48px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  header h1 {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(28px, 5vw, 56px);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-bright);
+    text-shadow: 3px 3px 0 var(--jeopardy-blue-deep);
+  }
+
+  header p {
+    margin-top: 6px;
+    font-size: clamp(13px, 2vw, 18px);
+    color: #c9c9ff;
+    letter-spacing: 1px;
+  }
+
+  .board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--tile-gap);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .category {
+    background: var(--jeopardy-blue-deep);
+    color: #fff;
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 1px;
+    font-size: clamp(12px, 1.5vw, 20px);
+    padding: 16px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70px;
+    border: 3px solid var(--board-bg);
+    border-radius: 4px;
+  }
+
+  .tile {
+    background: var(--jeopardy-blue);
+    color: var(--gold);
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(22px, 3.5vw, 42px);
+    text-shadow: 2px 2px 0 var(--jeopardy-blue-deep);
+    border: 3px solid var(--board-bg);
+    border-radius: 4px;
+    min-height: 84px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.08s ease, background 0.15s ease;
+    user-select: none;
+  }
+
+  .tile:hover {
+    background: #1a20ff;
+    transform: scale(1.03);
+  }
+
+  .tile.used {
+    background: var(--board-bg);
+    color: transparent;
+    cursor: default;
+    box-shadow: none;
+    transform: none;
+  }
+
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--jeopardy-blue);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    text-align: center;
+    z-index: 20;
+    cursor: pointer;
+  }
+
+  .overlay.show {
+    display: flex;
+  }
+
+  .overlay .tag {
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--gold-bright);
+    font-size: clamp(14px, 2.5vw, 22px);
+    margin-bottom: 24px;
+  }
+
+  .overlay .clue {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    line-height: 1.3;
+    font-size: clamp(24px, 5vw, 56px);
+    max-width: 1000px;
+    text-shadow: 3px 3px 0 var(--jeopardy-blue-deep);
+  }
+
+  .overlay .response {
+    margin-top: 36px;
+    font-family: 'Anton', sans-serif;
+    color: var(--gold-bright);
+    font-size: clamp(22px, 4.5vw, 48px);
+    display: none;
+  }
+
+  .overlay.revealed .response {
+    display: block;
+  }
+
+  .overlay .hint {
+    position: absolute;
+    bottom: 24px;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: #c9c9ff;
+    text-transform: uppercase;
+  }
+
+  .reset {
+    display: block;
+    margin: 32px auto 0;
+    background: var(--jeopardy-blue-deep);
+    color: var(--gold-bright);
+    border: 2px solid var(--gold);
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 15px;
+    padding: 10px 22px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .reset:hover {
+    background: var(--jeopardy-blue);
+  }
+
+  @media (max-width: 640px) {
+    .category {
+      min-height: 56px;
+    }
+
+    .tile {
+      min-height: 60px;
+    }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Committee Jeopardy!</h1>
+  <p>Life Gurukula &middot; Our Lady of the Elms</p>
+</header>
+
+<div class="board" id="board"></div>
+
+<button class="reset" id="reset">Reset Board</button>
+
+<div class="overlay" id="overlay">
+  <div class="tag" id="overlay-tag"></div>
+  <div class="clue" id="overlay-clue"></div>
+  <div class="response" id="overlay-response"></div>
+  <div class="hint" id="overlay-hint">Click to reveal</div>
+</div>
+
+<script>
+  const categories = [
+    {
+      name: 'Thrills & Spills',
+      clues: [
+        { value: 100, clue: "This member's family plays cricket at the professional level.", response: 'Who is Vivek?' },
+        { value: 200, clue: 'This member has completed six marathons.', response: 'Who is Anuradha?' },
+        { value: 300, clue: 'This member has hiked to the summit of Mount Kilimanjaro.', response: 'Who is Rajeshwar?' },
+        { value: 400, clue: 'This member has reportedly weathered six concussions.', response: 'Who is Suman?' },
+        { value: 500, clue: 'This member once spent the night sleeping in a postal vehicle.', response: 'Who is Vivekji?' }
+      ]
+    },
+    {
+      name: 'Rhythm & Style',
+      clues: [
+        { value: 100, clue: 'This member is a devoted fan of the K-pop group BTS.', response: 'Who is Priyanka?' },
+        { value: 200, clue: 'This member plays the drums in a band.', response: 'Who is Pankajji?' },
+        { value: 300, clue: 'This member is trained in Kuchipudi, a classical Indian dance form.', response: 'Who is Kamala?' },
+        { value: 400, clue: 'Known to carry a boom box and sport a pink Rolex, this member has serious flair.', response: 'Who is Vivekji?' },
+        { value: 500, clue: "This member is associated with the phrase \u201Cthe sum of my sins.\u201D", response: 'Who is Saloni?' }
+      ]
+    },
+    {
+      name: 'One of a Kind',
+      clues: [
+        { value: 100, clue: 'This member is moving to India in April.', response: 'Who is Hemant?' },
+        { value: 200, clue: 'This member is famous for never quite filling up the gas tank.', response: 'Who is Rajiv?' },
+        { value: 300, clue: "This member goes by the affectionate nickname \u201CDidi.\u201D", response: 'Who is Anuradha?' },
+        { value: 400, clue: 'This member once cared for a cow.', response: 'Who is Shankarji?' },
+        { value: 500, clue: 'This member is a principal at the World Bank.', response: 'Who is Suhasini?' }
+      ]
+    },
+    {
+      name: 'Mark Your Calendar',
+      clues: [
+        { value: 100, clue: 'The first-ever retreat at Life Gurukula was held on this date.', response: 'What is 10/02/25?' },
+        { value: 200, clue: 'The keys to the property were handed over on this date.', response: 'What is 08/15/25?' },
+        { value: 300, clue: 'The pooja inauguration took place on this date.', response: 'What is 08/16/25?' },
+        { value: 400, clue: 'The grand inauguration is set for this date.', response: 'What is 11/15/25?' },
+        { value: 500, clue: 'The Gurukula commitment was made on this date.', response: 'What is 03/30/25?' }
+      ]
+    }
+  ];
+
+  const board = document.getElementById('board');
+  const overlay = document.getElementById('overlay');
+  const overlayTag = document.getElementById('overlay-tag');
+  const overlayClue = document.getElementById('overlay-clue');
+  const overlayResponse = document.getElementById('overlay-response');
+  const overlayHint = document.getElementById('overlay-hint');
+
+  let activeTile = null;
+
+  function buildBoard() {
+    board.innerHTML = '';
+
+    categories.forEach(cat => {
+      const header = document.createElement('div');
+      header.className = 'category';
+      header.textContent = cat.name;
+      board.appendChild(header);
+    });
+
+    for (let row = 0; row < 5; row++) {
+      categories.forEach(cat => {
+        const item = cat.clues[row];
+        const tile = document.createElement('div');
+        tile.className = 'tile';
+        tile.textContent = '$' + item.value;
+        tile.addEventListener('click', () => openClue(tile, cat.name, item));
+        board.appendChild(tile);
+      });
+    }
+  }
+
+  function openClue(tile, categoryName, item) {
+    if (tile.classList.contains('used')) return;
+    activeTile = tile;
+    overlayTag.textContent = categoryName + ' \u2014 $' + item.value;
+    overlayClue.textContent = item.clue;
+    overlayResponse.textContent = item.response;
+    overlay.classList.remove('revealed');
+    overlayHint.textContent = 'Click to reveal';
+    overlay.classList.add('show');
+  }
+
+  overlay.addEventListener('click', () => {
+    if (!overlay.classList.contains('revealed')) {
+      overlay.classList.add('revealed');
+      overlayHint.textContent = 'Click to close';
+      return;
+    }
+    overlay.classList.remove('show');
+    if (activeTile) {
+      activeTile.classList.add('used');
+      activeTile = null;
+    }
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.classList.contains('show')) {
+      overlay.classList.remove('show');
+      if (activeTile) {
+        activeTile.classList.add('used');
+        activeTile = null;
+      }
+    }
+  });
+
+  document.getElementById('reset').addEventListener('click', buildBoard);
+
+  buildBoard();
+</script>
+</body>
+</html>
