@@ -1,33 +1,48 @@
-# Committee Jeopardy
+# Life Gurukula Apps
 
-A single-page, clickable Jeopardy board for Life Gurukula / Our Lady of the Elms.
-Click a dollar tile to show the clue, click once to reveal the response, click again
-to close and gray out the tile. "Reset Board" restores everything.
+A static site holding two small apps for the community, deployed together on
+Vercel.
 
-It's one static `index.html` with no build step and no dependencies (fonts load
-from Google Fonts; it still works offline with fallback fonts).
+| Path | App | Built with |
+| --- | --- | --- |
+| `/` | Landing page | one hand-written HTML file |
+| `/jeopardy/` | Committee Jeopardy board | one hand-written HTML file |
+| `/wayfinder/` | Indoor wayfinding, photo by photo | Angular 19 + TypeScript, PWA |
 
-## Push to GitHub
+## Layout
 
-```bash
-git init
-git add index.html README.md
-git commit -m "Committee Jeopardy board"
-git branch -M main
-git remote add origin https://github.com/<your-username>/<your-repo>.git
-git push -u origin main
+```
+site/            what gets served as-is
+  index.html       landing page
+  jeopardy/        the Jeopardy board (no build step, no dependencies)
+wayfinder/       Angular app (see wayfinder/README.md)
+scripts/build.mjs  copies site/ and the Angular build into dist/
+dist/            build output — git-ignored, this is what Vercel serves
 ```
 
-## Deploy to Vercel
-
-1. Go to vercel.com, click **Add New → Project**, and import the GitHub repo.
-2. Framework Preset: **Other**. Leave build command and output directory blank.
-3. Click **Deploy**. Vercel serves `index.html` at the root automatically — no
-   `vercel.json` needed.
-
-Or, from the command line with the Vercel CLI:
+## Running it locally
 
 ```bash
-npm i -g vercel
-vercel
+npm install          # also installs the Angular app's dependencies
+npm start            # ng serve on http://localhost:4200 (wayfinder only)
 ```
+
+For the whole site, including the landing page and Jeopardy:
+
+```bash
+npm run build
+npx serve dist       # or: cd dist && python3 -m http.server 8777
+```
+
+The Jeopardy board is plain HTML — open `site/jeopardy/index.html` in a browser
+and it works, no server needed.
+
+## Deploying
+
+`vercel.json` already tells Vercel what to do: `npm run build`, serve `dist`.
+Pushing to `main` is enough. If the Vercel project was set up earlier with
+"Framework Preset: Other" and empty build settings, `vercel.json` overrides
+them — nothing to change in the dashboard.
+
+Node 20.19+ (or 22.12+) is needed to run the Angular CLI. This machine is on
+20.17, which is why the app is pinned to Angular 19 rather than 20.

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1067" role="img" aria-label="Photo not taken yet">
+  <rect width="800" height="1067" fill="#F4E9D4"/>
+  <g fill="none" stroke="#8F4E0A" stroke-opacity=".35" stroke-width="3">
+    <rect x="40" y="40" width="720" height="987" rx="18" stroke-dasharray="14 12"/>
+  </g>
+  <g fill="#8F4E0A" font-family="Georgia, serif" text-anchor="middle">
+    <text x="400" y="500" font-size="44">Photo not taken yet</text>
+    <text x="400" y="560" font-size="26" fill-opacity=".7">Drop a JPG in public/photos and</text>
+    <text x="400" y="596" font-size="26" fill-opacity=".7">name it in building.json</text>
+  </g>
+</svg>

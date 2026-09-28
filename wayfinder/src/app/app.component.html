@@ -1,0 +1,60 @@
+<main class="shell">
+  <header class="bar">
+    <span class="eyebrow">Life Gurukula</span>
+    <h1>Find your way</h1>
+    @if (knownAnchor()) {
+      <p class="here">You are at <b>{{ here() }}</b></p>
+    }
+  </header>
+
+  @if (error()) {
+    <div class="card warn">
+      <p>{{ error() }}</p>
+    </div>
+  } @else if (!ready()) {
+    <div class="card quiet">
+      <p>Loading the map…</p>
+    </div>
+  } @else {
+    @if (trip(); as active) {
+      <app-step-player
+        [steps]="active.steps"
+        [destinationLabel]="active.label"
+        (quit)="restart()"
+      />
+    } @else if (!knownAnchor()) {
+      <div class="card">
+        <h2>Which sign are you standing at?</h2>
+        <p class="muted">
+          @if (at()) {
+            The code said "{{ at() }}", which is not on the map. Pick your spot below.
+          } @else {
+            Scan the QR code on the wall, or pick your spot below.
+          }
+        </p>
+        <ul class="anchors">
+          @for (node of anchors(); track node.id) {
+            <li><button type="button" (click)="useAnchor(node.id)">{{ node.label }}</button></li>
+          }
+        </ul>
+      </div>
+    } @else {
+      @if (noRouteTo()) {
+        <div class="card warn">
+          <p>No route from {{ here() }} to {{ noRouteTo() }} has been mapped yet.</p>
+        </div>
+      }
+      <div class="card">
+        <app-destination-picker
+          [destinations]="choices()"
+          [resolveRoom]="resolveRoom"
+          (picked)="go($event)"
+        />
+      </div>
+    }
+  }
+
+  <footer class="foot">
+    <a href="../">All Life Gurukula apps</a>
+  </footer>
+</main>

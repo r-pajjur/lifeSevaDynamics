@@ -1,0 +1,12 @@
+{
+  "name": "life-gurukula-apps",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Static site holding the Life Gurukula community apps.",
+  "type": "module",
+  "scripts": {
+    "build": "npm --prefix wayfinder run build && node scripts/build.mjs",
+    "start": "npm --prefix wayfinder start",
+    "postinstall": "npm --prefix wayfinder install"
+  }
+}

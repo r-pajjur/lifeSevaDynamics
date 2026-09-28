@@ -1,0 +1,100 @@
+.player {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.counter {
+  margin-left: auto;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.ghost {
+  padding: 6px 0;
+  font: 600 15px 'Inter', sans-serif;
+  color: var(--ochre);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.ghost:focus-visible {
+  outline: 2px solid var(--saffron);
+  outline-offset: 2px;
+}
+
+.shot {
+  position: relative;
+  margin: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--hairline);
+  box-shadow: var(--shadow);
+  background: var(--chandan-deep);
+}
+
+.shot img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+.instruction {
+  margin: 0;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 21px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.arrived {
+  margin: 0;
+  padding: 14px 16px;
+  font-size: 16px;
+  color: var(--tulsi);
+  background: color-mix(in srgb, var(--tulsi) 8%, transparent);
+  border: 1px solid var(--tulsi);
+  border-radius: 10px;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+}
+
+.controls .btn {
+  flex: 1;
+}
+
+.dots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin: 2px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dots li {
+  width: 26px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--chandan-deep);
+  border: 1px solid var(--hairline);
+}
+
+.dots li.done {
+  background: var(--saffron);
+  border-color: var(--saffron);
+}

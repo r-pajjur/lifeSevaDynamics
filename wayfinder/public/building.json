@@ -1,0 +1,97 @@
+{
+  "building": "Life Gurukula",
+  "nodes": {
+    "cafeteria": {
+      "label": "Cafeteria",
+      "destination": true
+    },
+    "sunroom": {
+      "label": "Sun Room Corridor"
+    },
+    "lobby": {
+      "label": "Main Lobby"
+    },
+    "stairwell": {
+      "label": "Stairwell"
+    },
+    "landing-2": {
+      "label": "Second Floor Landing"
+    },
+    "hall-2": {
+      "label": "Second Floor Hallway"
+    },
+    "rooms-200": {
+      "label": "Rooms 200–220",
+      "destination": true,
+      "rooms": { "from": 200, "to": 220 }
+    },
+    "mandir": {
+      "label": "Mandir",
+      "destination": true,
+      "placeholder": true
+    },
+    "library": {
+      "label": "Library",
+      "destination": true,
+      "placeholder": true
+    }
+  },
+  "steps": [
+    {
+      "from": "cafeteria",
+      "to": "sunroom",
+      "photo": "pic1.jpg",
+      "arrow": "straight",
+      "text": "Leave the cafeteria through the doorway ahead, to the left of the rounded wood pillar."
+    },
+    {
+      "from": "sunroom",
+      "to": "lobby",
+      "photo": "pic2.jpg",
+      "arrow": "straight",
+      "text": "Walk the full length of the sun room, past the tables, to the far end."
+    },
+    {
+      "from": "lobby",
+      "to": "stairwell",
+      "photo": "pic3.jpg",
+      "arrow": "straight",
+      "text": "Go through the wooden door ahead, next to the whiteboard."
+    },
+    {
+      "from": "stairwell",
+      "to": "landing-2",
+      "photo": "pic4.jpg",
+      "arrow": "up",
+      "text": "Take the stairs up one flight to the second floor."
+    },
+    {
+      "from": "landing-2",
+      "to": "hall-2",
+      "photo": "pic5.jpg",
+      "arrow": "straight",
+      "text": "Go straight through the doorway into the guest hallway."
+    },
+    {
+      "from": "hall-2",
+      "to": "rooms-200",
+      "photo": "pic6.jpg",
+      "arrow": "straight",
+      "text": "Rooms 200 to 220 are along this hallway — check the numbers on the doors."
+    },
+    {
+      "from": "lobby",
+      "to": "mandir",
+      "photo": "placeholder.svg",
+      "arrow": "right",
+      "text": "PLACEHOLDER — photograph this leg: turn right out of the lobby toward the mandir."
+    },
+    {
+      "from": "lobby",
+      "to": "library",
+      "photo": "placeholder.svg",
+      "arrow": "left",
+      "text": "PLACEHOLDER — photograph this leg: turn left out of the lobby toward the library."
+    }
+  ]
+}
