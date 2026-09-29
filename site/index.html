@@ -117,6 +117,7 @@
     margin-left: var(--tab-x, 0%);
     height: 40px;
     padding: 0 12px;
+    gap: 8px;
     background: var(--c);
     border-radius: 12px 12px 0 0;
     box-shadow: inset 0 2px 0 rgba(255, 255, 255, .35);
@@ -292,6 +293,7 @@
 
   @media (max-width: 520px) {
     .folder { --tab-w: 60%; }
+    .label { letter-spacing: .08em; }
     .folder:nth-child(2) { --tab-x: 20% !important; }
     .folder:nth-child(3) { --tab-x: 40% !important; }
   }
@@ -316,17 +318,12 @@
   <div class="drawer">
     <details class="folder" style="--c: var(--tomato); --tab-x: 0%">
       <summary>
-        <span class="tab"><span class="label">Jeopardy</span><span class="count">02</span></span>
+        <span class="tab"><span class="label">Retreat Dynamics</span><span class="count">01</span></span>
         <span class="face"><span>File A</span><span class="hint"></span></span>
       </summary>
       <div class="inside">
-        <a class="card" href="jeopardy/">
-          <span class="no">A&middot;01</span>
-          <span class="name">Committee Jeopardy</span>
-          <span class="open">Play &rarr;</span>
-        </a>
         <a class="card" href="habits-to-heroes/">
-          <span class="no">A&middot;02</span>
+          <span class="no">A&middot;01</span>
           <span class="name">Habits to Heroes</span>
           <span class="open">Play &rarr;</span>
         </a>
@@ -354,18 +351,23 @@
 
     <details class="folder" style="--c: var(--mint); --tab-x: 62%">
       <summary>
-        <span class="tab"><span class="label">Life Gurukula</span><span class="count">02</span></span>
+        <span class="tab"><span class="label">Life Gurukula</span><span class="count">03</span></span>
         <span class="face"><span>File C</span><span class="hint"></span></span>
       </summary>
       <div class="inside">
-        <a class="card" href="wayfinder/">
+        <a class="card" href="jeopardy/">
           <span class="no">C&middot;01</span>
+          <span class="name">Committee Jeopardy</span>
+          <span class="open">Play &rarr;</span>
+        </a>
+        <a class="card" href="wayfinder/">
+          <span class="no">C&middot;02</span>
           <span class="name">Find your way</span>
           <span class="open">Open &rarr;</span>
           <span class="stamp">Work in<br />progress</span>
         </a>
         <a class="card" href="room-booking/">
-          <span class="no">C&middot;02</span>
+          <span class="no">C&middot;03</span>
           <span class="name">Room booking</span>
           <span class="open">Open &rarr;</span>
           <span class="stamp">Work in<br />progress</span>
