@@ -4,28 +4,32 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Rasa Lila</title>
-<meta name="description" content="Small seva apps for the community — Jeopardy boards, wayfinding, retreat registration, and class activities." />
-<meta name="theme-color" content="#FDF8EE" />
-<meta name="color-scheme" content="light" />
+<meta name="theme-color" content="#14213D" />
+<meta name="color-scheme" content="dark" />
+<meta name="robots" content="noindex" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Mono:wght@400;700&display=swap" />
 <style>
   :root {
-    --chandan: #FDF8EE;
-    --chandan-deep: #F4E9D4;
-    --paper: #FFFFFF;
-    --ink: #211A12;
-    --ink-soft: #574B3C;
-    --saffron: #D9741A;
-    --ochre: #8F4E0A;
-    --kumkum: #8C1D2A;
-    --water: #2E86B0;
-    --hairline: color-mix(in srgb, var(--ochre) 30%, transparent);
-    --radius: 14px;
-    --shadow: 0 6px 16px rgba(33, 26, 18, .09);
-    --shadow-lift: 0 14px 32px rgba(33, 26, 18, .18);
-    color-scheme: light;
+    --desk: #14213D;
+    --desk-line: rgba(255, 255, 255, .045);
+    --cream: #F6EEDC;
+    --card: #FFFCF2;
+    --card-rule: #B9D3EA;
+    --card-margin: #F08A8A;
+    --ink: #1C1A24;
+    --ink-soft: #5C5866;
+    --tape: #111014;
+    --stamp: #E0312B;
+    --tomato: #FF5A36;
+    --sun: #FFC53D;
+    --mint: #3DDC97;
+    --lilac: #B69CFF;
+    --mono: 'Space Mono', ui-monospace, Menlo, monospace;
+    --serif: 'Instrument Serif', Georgia, serif;
+    color-scheme: dark;
+    interpolate-size: allow-keywords;
   }
 
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -33,213 +37,353 @@
   html, body {
     margin: 0;
     min-height: 100%;
-    background: var(--chandan);
-    color: var(--ink);
-    font: 400 18px/1.62 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--cream);
+    font: 400 16px/1.5 var(--mono);
     -webkit-font-smoothing: antialiased;
   }
 
-  /* paper grain, as on lifeseva.ca */
-  .paper-grain {
+  /* the desk: graph paper under a warm lamp */
+  body {
+    background:
+      radial-gradient(1200px 700px at 78% -10%, rgba(255, 197, 61, .20), transparent 60%),
+      radial-gradient(900px 600px at -10% 110%, rgba(182, 156, 255, .16), transparent 60%),
+      linear-gradient(var(--desk-line) 1px, transparent 1px) 0 0 / 28px 28px,
+      linear-gradient(90deg, var(--desk-line) 1px, transparent 1px) 0 0 / 28px 28px,
+      var(--desk);
+    background-attachment: fixed;
+  }
+
+  .grain {
     position: fixed;
     inset: 0;
-    opacity: .05;
+    opacity: .09;
     pointer-events: none;
-    z-index: 0;
+    z-index: 10;
+    mix-blend-mode: overlay;
   }
-  .paper-grain svg { width: 100%; height: 100%; }
+  .grain svg { width: 100%; height: 100%; }
 
   .wrap {
-    position: relative;
-    z-index: 1;
-    max-width: 760px;
+    max-width: 720px;
     margin: 0 auto;
     padding:
-      calc(env(safe-area-inset-top, 0px) + 64px)
-      calc(env(safe-area-inset-right, 0px) + 22px)
-      calc(env(safe-area-inset-bottom, 0px) + 56px)
-      calc(env(safe-area-inset-left, 0px) + 22px);
+      calc(env(safe-area-inset-top, 0px) + 72px)
+      calc(env(safe-area-inset-right, 0px) + 16px)
+      calc(env(safe-area-inset-bottom, 0px) + 72px)
+      calc(env(safe-area-inset-left, 0px) + 16px);
   }
 
-  .hero { text-align: center; margin-bottom: 40px; }
+  h1 {
+    margin: 0 0 56px;
+    font: italic 400 clamp(44px, 9vw, 84px)/.95 var(--serif);
+    letter-spacing: -.01em;
+    color: var(--cream);
+  }
+  h1 em {
+    font-style: normal;
+    background: linear-gradient(transparent 58%, color-mix(in srgb, var(--tomato) 75%, transparent) 58% 92%, transparent 92%);
+    padding: 0 .08em;
+    white-space: nowrap;
+  }
 
-  .eyebrow {
+  /* ---------- the drawer of folders ---------- */
+
+  .drawer { position: relative; }
+
+  .folder {
+    --tab-w: 38%;
+    position: relative;
+    color: var(--ink);
+    transition: transform .22s cubic-bezier(.3, 1.4, .5, 1);
+  }
+  .folder + .folder { margin-top: -46px; }
+  .folder:not([open]):hover { transform: translateY(-10px) rotate(-.4deg); }
+  .folder[open] { z-index: 2; }
+
+  .folder > summary {
+    list-style: none;
+    cursor: pointer;
     display: block;
-    font-size: 13px;
-    font-weight: 600;
+    outline: none;
+  }
+  .folder > summary::-webkit-details-marker { display: none; }
+
+  .tab {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: var(--tab-w);
+    min-width: 170px;
+    margin-left: var(--tab-x, 0%);
+    height: 40px;
+    padding: 0 12px;
+    background: var(--c);
+    border-radius: 12px 12px 0 0;
+    box-shadow: inset 0 2px 0 rgba(255, 255, 255, .35);
+  }
+
+  /* label-maker tape stuck on the tab */
+  .label {
+    display: inline-block;
+    padding: 3px 9px 2px;
+    background: var(--tape);
+    color: #F4F4F4;
+    font: 700 13px/1.3 var(--mono);
     letter-spacing: .14em;
     text-transform: uppercase;
-    color: var(--saffron);
-    margin-bottom: 6px;
+    border-radius: 2px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .4), inset 0 1px 0 rgba(255, 255, 255, .12);
+    transform: rotate(-1.2deg);
+    white-space: nowrap;
   }
 
-  .hero h1 {
-    font-family: 'Fraunces', Georgia, serif;
-    font-weight: 600;
-    font-size: clamp(32px, 5vw, 46px);
-    line-height: 1.12;
-    margin: 0;
-    color: var(--ochre);
+  .count {
+    margin-left: auto;
+    font: 700 12px var(--mono);
+    opacity: .6;
   }
 
-  .hero p {
-    max-width: 460px;
-    margin: 12px auto 0;
-    font-size: 17px;
-    color: var(--ink-soft);
-  }
-
-  .hero::after {
-    content: "";
-    display: block;
-    width: 80px;
-    height: 4px;
-    background: var(--saffron);
-    margin: 24px auto 0;
-  }
-
-  .apps {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 16px;
-  }
-
-  .app {
+  .face {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 24px 22px 22px;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 86px;
+    padding: 0 20px 16px;
+    background: var(--c);
+    border-radius: 0 14px 6px 6px;
+    box-shadow:
+      0 -1px 0 rgba(0, 0, 0, .12),
+      0 18px 30px -12px rgba(0, 0, 0, .55);
+    font: 400 12px var(--mono);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .face .hint { opacity: .55; }
+  .face .hint::after { content: "pull out \2193"; }
+  .folder[open] .face .hint::after { content: "put back \2191"; }
+
+  .folder > summary:focus-visible .tab,
+  .folder > summary:focus-visible .face {
+    outline: 3px solid var(--cream);
+    outline-offset: 2px;
+  }
+
+  /* the open folder: cards fanned out on its inside */
+  .folder::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition: block-size .35s ease, content-visibility .35s allow-discrete;
+  }
+  .folder[open]::details-content { block-size: auto; }
+
+  .inside {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+    margin-top: -6px;
+    padding: 28px 20px 76px;
+    background:
+      linear-gradient(rgba(0, 0, 0, .10), transparent 26px),
+      color-mix(in srgb, var(--c) 82%, #000);
+    border-radius: 0 0 8px 8px;
+  }
+
+  /* ---------- index cards ---------- */
+
+  .card {
+    position: relative;
+    display: block;
+    min-height: 128px;
+    padding: 34px 18px 16px 30px;
     text-decoration: none;
-    color: inherit;
-    background: var(--paper);
-    border: 1px solid var(--hairline);
-    border-left: 4px solid var(--accent, var(--saffron));
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    transition: transform .14s ease, box-shadow .14s ease;
+    color: var(--ink);
+    background:
+      linear-gradient(90deg, transparent 20px, var(--card-margin) 20px 21.5px, transparent 21.5px),
+      linear-gradient(var(--card-margin), var(--card-margin)) 0 26px / 100% 1.5px no-repeat,
+      repeating-linear-gradient(transparent 0 25px, var(--card-rule) 25px 26px) 0 26px,
+      var(--card);
+    border-radius: 3px;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, .08), 0 10px 22px -8px rgba(0, 0, 0, .45);
+    transform: rotate(var(--r, -1deg));
+    transition: transform .18s cubic-bezier(.3, 1.5, .5, 1), box-shadow .18s ease;
+  }
+  .card:nth-child(2n) { --r: 1.2deg; }
+  .card:hover {
+    transform: rotate(0) translateY(-6px) scale(1.02);
+    box-shadow: 0 2px 0 rgba(0, 0, 0, .08), 0 22px 34px -10px rgba(0, 0, 0, .55);
+  }
+  .card:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
+
+  .card .no {
+    position: absolute;
+    top: 6px;
+    right: 12px;
+    font: 400 11px var(--mono);
+    color: var(--ink-soft);
+    letter-spacing: .08em;
   }
 
-  .app:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); }
-  .app:focus-visible { outline: 3px solid var(--saffron); outline-offset: 3px; }
-
-  .app .icon {
-    width: 42px;
-    height: 42px;
-    margin-bottom: 4px;
-    color: var(--accent, var(--saffron));
+  .card .name {
+    display: block;
+    font: italic 400 30px/1 var(--serif);
   }
 
-  .app h2 {
-    font-family: 'Fraunces', Georgia, serif;
-    font-weight: 600;
-    font-size: 23px;
-    margin: 0;
-    color: var(--ochre);
-  }
-
-  .app p {
-    margin: 0;
-    font-size: 16px;
-    line-height: 1.5;
+  .card .open {
+    display: block;
+    margin-top: 14px;
+    font: 700 12px var(--mono);
+    letter-spacing: .1em;
+    text-transform: uppercase;
     color: var(--ink-soft);
   }
 
-  .app .go {
-    margin-top: 10px;
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--accent, var(--saffron));
+  /* rubber stamp */
+  .stamp {
+    position: absolute;
+    right: 12px;
+    bottom: 14px;
+    padding: 4px 8px;
+    border: 2.5px solid var(--stamp);
+    border-radius: 4px;
+    color: var(--stamp);
+    font: 700 11px/1.15 var(--mono);
+    letter-spacing: .12em;
+    text-align: center;
+    text-transform: uppercase;
+    transform: rotate(-9deg);
+    mix-blend-mode: multiply;
+    opacity: .88;
+    -webkit-mask: radial-gradient(circle at 30% 40%, #000 55%, rgba(0, 0, 0, .55) 56%) 0 0 / 7px 7px;
+            mask: radial-gradient(circle at 30% 40%, #000 55%, rgba(0, 0, 0, .55) 56%) 0 0 / 7px 7px;
+  }
+
+  /* ---------- the loose card taped to the desk ---------- */
+
+  .loose {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 44px;
+  }
+  .loose .card {
+    width: min(280px, 100%);
+    --r: 3deg;
+  }
+  .loose .card::before {
+    content: "";
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    width: 92px;
+    height: 24px;
+    translate: -50% 0;
+    rotate: -4deg;
+    background: color-mix(in srgb, var(--lilac) 70%, transparent);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
   }
 
   .foot {
-    margin-top: 44px;
-    text-align: center;
-    font-size: 14px;
-    color: var(--ink-soft);
+    margin-top: 64px;
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--cream) 55%, transparent);
+  }
+  .foot a { color: var(--sun); }
+
+  @media (max-width: 520px) {
+    .folder { --tab-w: 60%; }
+    .folder:nth-child(2) { --tab-x: 20% !important; }
+    .folder:nth-child(3) { --tab-x: 40% !important; }
   }
 
-  .foot a { color: var(--ochre); }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after, .folder::details-content { transition: none !important; }
+  }
 </style>
 </head>
 <body>
 
-<div class="paper-grain" aria-hidden="true">
+<div class="grain" aria-hidden="true">
   <svg xmlns="http://www.w3.org/2000/svg">
-    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" /></filter>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch" /></filter>
     <rect width="100%" height="100%" filter="url(#grain)" />
   </svg>
 </div>
 
-<div class="wrap">
-  <header class="hero">
-    <span class="eyebrow">Seva apps</span>
-    <h1>Rasa Lila</h1>
-    <p>Small tools built with love for the community. Pick one to open it.</p>
-  </header>
+<main class="wrap">
+  <h1>my part in the <em>rasa lila</em></h1>
 
-  <div class="apps">
-    <a class="app" href="jeopardy/" style="--accent: var(--kumkum)">
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <rect x="3" y="4" width="18" height="16" rx="2" />
-        <path d="M3 9h18M9 9v11M15 9v11" />
-      </svg>
-      <h2>Committee Jeopardy</h2>
-      <p>A five-category board for committee gatherings, with daily doubles and live scorekeeping.</p>
-      <span class="go">Play &rarr;</span>
-    </a>
+  <div class="drawer">
+    <details class="folder" style="--c: var(--tomato); --tab-x: 0%">
+      <summary>
+        <span class="tab"><span class="label">Jeopardy</span><span class="count">02</span></span>
+        <span class="face"><span>File A</span><span class="hint"></span></span>
+      </summary>
+      <div class="inside">
+        <a class="card" href="jeopardy/">
+          <span class="no">A&middot;01</span>
+          <span class="name">Committee Jeopardy</span>
+          <span class="open">Play &rarr;</span>
+        </a>
+        <a class="card" href="habits-to-heroes/">
+          <span class="no">A&middot;02</span>
+          <span class="name">Habits to Heroes</span>
+          <span class="open">Play &rarr;</span>
+        </a>
+      </div>
+    </details>
 
-    <a class="app" href="wayfinder/" style="--accent: var(--water)">
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z" />
-        <circle cx="12" cy="10" r="2.6" />
-      </svg>
-      <h2>Find your way</h2>
-      <p>Scan a QR code in the building, pick where you are going, and follow photo-by-photo directions.</p>
-      <span class="go">Open &rarr;</span>
-    </a>
+    <details class="folder" style="--c: var(--sun); --tab-x: 31%">
+      <summary>
+        <span class="tab"><span class="label">Seeking Culture</span><span class="count">02</span></span>
+        <span class="face"><span>File B</span><span class="hint"></span></span>
+      </summary>
+      <div class="inside">
+        <a class="card" href="seekingculture/gunas/">
+          <span class="no">B&middot;01</span>
+          <span class="name">The Gunas</span>
+          <span class="open">Open &rarr;</span>
+        </a>
+        <a class="card" href="seekingculture/yatra/">
+          <span class="no">B&middot;02</span>
+          <span class="name">The Yatra</span>
+          <span class="open">Open &rarr;</span>
+        </a>
+      </div>
+    </details>
 
-    <a class="app" href="habits-to-heroes/" style="--accent: var(--saffron)">
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z" />
-      </svg>
-      <h2>Habits to Heroes</h2>
-      <p>A Jeopardy-style game about building good habits, with teams and scorekeeping.</p>
-      <span class="go">Play &rarr;</span>
-    </a>
+    <details class="folder" style="--c: var(--mint); --tab-x: 62%">
+      <summary>
+        <span class="tab"><span class="label">Life Gurukula</span><span class="count">02</span></span>
+        <span class="face"><span>File C</span><span class="hint"></span></span>
+      </summary>
+      <div class="inside">
+        <a class="card" href="wayfinder/">
+          <span class="no">C&middot;01</span>
+          <span class="name">Find your way</span>
+          <span class="open">Open &rarr;</span>
+          <span class="stamp">Work in<br />progress</span>
+        </a>
+        <a class="card" href="room-booking/">
+          <span class="no">C&middot;02</span>
+          <span class="name">Room booking</span>
+          <span class="open">Open &rarr;</span>
+          <span class="stamp">Work in<br />progress</span>
+        </a>
+      </div>
+    </details>
+  </div>
 
-    <a class="app" href="room-booking/" style="--accent: var(--ochre)">
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M3 11l9-7 9 7" />
-        <path d="M5 10v10h14V10" />
-        <path d="M10 20v-5h4v5" />
-      </svg>
-      <h2>Retreat registration</h2>
-      <p>Come and stay at the Ashrama. Pick your dates, add your party, and request rooms.</p>
-      <span class="go">Register &rarr;</span>
-    </a>
-
-    <a class="app" href="seekingculture/" style="--accent: var(--kumkum)">
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z" />
-        <path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5" />
-      </svg>
-      <h2>Seeking Culture</h2>
-      <p>Class activities: the gunas pie chart and The Yatra, a group pilgrimage game on Upadesha Sara.</p>
-      <span class="go">Open &rarr;</span>
-    </a>
-
-    <a class="app" href="https://dhara-cmn.vercel.app" style="--accent: var(--water)">
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M12 3s6 6.4 6 11a6 6 0 0 1-12 0c0-4.6 6-11 6-11z" />
-      </svg>
-      <h2>Dhara</h2>
-      <p>Thirty mornings of drops, together. A gentle daily ritual for the yatra group.</p>
-      <span class="go">Open &rarr;</span>
+  <div class="loose">
+    <a class="card" href="https://dhara-cmn.vercel.app">
+      <span class="no">loose</span>
+      <span class="name">Dhara</span>
+      <span class="open">Open &rarr;</span>
     </a>
   </div>
 
-  <p class="foot">Part of <a href="https://lifeseva.ca">Life Seva</a>.</p>
-</div>
+  <p class="foot">Part of <a href="https://lifeseva.ca">Life Seva</a></p>
+</main>
 
 </body>
 </html>
