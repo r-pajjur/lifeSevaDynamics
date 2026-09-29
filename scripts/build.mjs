@@ -22,4 +22,4 @@ await mkdir(dist, { recursive: true });
 await cp(join(root, 'site'), dist, { recursive: true });
 await cp(angular, join(dist, 'wayfinder'), { recursive: true });
 
-console.log('Assembled dist/ — landing page, jeopardy/, wayfinder/');
+console.log('Assembled dist/ — landing page, site apps, wayfinder/');

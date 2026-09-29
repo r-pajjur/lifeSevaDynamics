@@ -1,0 +1,47 @@
+/* components.css — Stepper, buttons */
+
+/* ---------- stepper (signature: path of the stay) ---------- */
+.stepper-wrap{max-width:880px;margin:-2.6rem auto 0;padding:0 1.25rem;position:relative;z-index:5}
+.stepper{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:10px;
+  box-shadow:0 12px 30px rgba(46,39,33,.09);
+  display:flex;
+  padding:1.1rem .8rem;
+}
+.step{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:.45rem;
+  position:relative;text-align:center;
+}
+.step:not(:last-child)::after{
+  content:'';position:absolute;top:14px;left:calc(50% + 20px);right:calc(-50% + 20px);
+  border-top:1px dashed var(--line);
+}
+.step .dot{
+  width:28px;height:28px;border-radius:50%;
+  border:2px solid var(--line);background:var(--paper);
+  display:grid;place-items:center;
+  font-family:'Marcellus',serif;font-size:.8rem;color:var(--muted);
+  transition:all .25s ease;
+}
+.step .lbl{font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.step.current .dot{border-color:var(--saffron);background:var(--saffron);color:#fff;box-shadow:0 0 0 5px rgba(201,113,40,.14)}
+.step.current .lbl{color:var(--saffron)}
+.step.done .dot{border-color:var(--forest);background:var(--forest);color:#fff}
+.step.done .lbl{color:var(--forest)}
+@media(max-width:640px){ .step .lbl{display:none} .stepper{padding:.9rem .4rem} }
+
+/* ---------- buttons ---------- */
+.btn-row{display:flex;justify-content:space-between;gap:1rem;margin-top:2.2rem}
+.btn{
+  font-family:'Mulish',sans-serif;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:.8rem;
+  padding:.85rem 2rem;border-radius:6px;cursor:pointer;border:1px solid transparent;
+  transition:background .2s, color .2s, border-color .2s;
+}
+.btn.primary{background:var(--saffron);color:#fff}
+.btn.primary:hover{background:var(--saffron-dark)}
+.btn.ghost{background:transparent;border-color:var(--line);color:var(--muted)}
+.btn.ghost:hover{border-color:var(--ink);color:var(--ink)}
+.btn:focus-visible{outline:3px solid rgba(201,113,40,.4);outline-offset:2px}
+.btn[disabled]{opacity:.5;cursor:not-allowed}

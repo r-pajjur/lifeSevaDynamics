@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Retreat Registration — Life Gurukula</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Mulish:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/forms.css">
+<link rel="stylesheet" href="assets/css/calendar.css">
+<link rel="stylesheet" href="assets/css/review.css">
+</head>
+<body>
+
+<div class="utility">
+  <span>1230 W. Market St Akron OH</span>
+  <a href="mailto:info@lifegurukula.org">info@lifegurukula.org</a>
+</div>
+
+<nav>
+  <a class="brand" href="https://lifegurukula.org/">
+    <img src="https://lifegurukula.org/wp-content/uploads/2025/10/roundlogo.png" alt="Life Gurukula logo" id="brandLogo">
+    <span class="brand-text">Life Gurukula</span>
+  </a>
+  <ul>
+    <li><a href="https://lifegurukula.org/">Home</a></li>
+    <li><a href="https://lifegurukula.org/about/">About</a></li>
+    <li><a href="https://lifegurukula.org/offerings/">Offerings</a></li>
+    <li><a href="https://lifegurukula.org/events/">Events</a></li>
+    <li><a href="#" class="active">Stay With Us</a></li>
+  </ul>
+</nav>
+
+<header class="hero">
+  <div class="sun" aria-hidden="true"></div>
+  <h1>Come &amp; Stay at the Ashrama</h1>
+  <div class="tagline">– Reserve Your Sanctuary for Inner Growth –</div>
+  <p class="lede">Come for a weekend, a week, or longer. Reserve your room below and let the teachings of Vedanta guide you home to yourself.</p>
+</header>
+
+<div class="stepper-wrap">
+  <ol class="stepper" id="stepper">
+    <li class="step current" data-step="1"><span class="dot">1</span><span class="lbl">Dates &amp; Purpose</span></li>
+    <li class="step" data-step="2"><span class="dot">2</span><span class="lbl">Your Details</span></li>
+    <li class="step" data-step="3"><span class="dot">3</span><span class="lbl">Your Party</span></li>
+    <li class="step" data-step="4"><span class="dot">4</span><span class="lbl">Guest Services</span></li>
+    <li class="step" data-step="5"><span class="dot">5</span><span class="lbl">Review &amp; Reserve</span></li>
+  </ol>
+</div>
+
+<main>
+<form id="bookingForm" novalidate>
+
+<!-- ============ STEP 1 ============ -->
+<section class="panel step-panel" data-panel="1">
+  <div class="section-title">
+    <h2>Dates &amp; Purpose</h2>
+    <span class="dash">– When Will You Join Us –</span>
+  </div>
+
+  <fieldset>
+    <div class="grid">
+      <div id="f-purpose">
+        <label for="purpose">Purpose of Visit <span class="req">*</span></label>
+        <select id="purpose">
+          <option value="">Select a purpose…</option>
+          <option value="personal">Personal Retreat &amp; Sacred Pause</option>
+          <option value="study">Vedanta Study &amp; Classes</option>
+          <option value="seva">Seva / Volunteer Stay</option>
+          <option value="family">Family Visit</option>
+          <option value="workshop">Workshop Attendance</option>
+          <option value="external">Organizing an External Group Retreat</option>
+        </select>
+        <div class="field-error">Please choose a purpose of visit.</div>
+      </div>
+    </div>
+    <div class="notice block" id="externalNotice" style="display:none">
+      <strong>Group retreats are booked directly with our Events team.</strong><br>
+      If you are organizing a retreat for a group, please don't register each guest here — the retreat organizer creates a single bulk booking with us. Write to <a href="mailto:info@lifegurukula.org">info@lifegurukula.org</a> and we'll take care of everything.
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <label>Select Your Dates <span class="req">*</span></label>
+    <p class="hint" style="margin-bottom:.6rem">Tap a date to set your arrival, then tap a second date to set your departure. Struck-through dates are unavailable.</p>
+    <div class="cal-wrap" id="calWrap"></div>
+    <div class="cal-legend">
+      <span><i class="swatch sw-sel"></i> Selected</span>
+      <span><i class="swatch sw-range"></i> Your stay</span>
+      <span><i class="swatch sw-block"></i> Unavailable</span>
+    </div>
+    <div class="date-readout">
+      <div class="chip"><b>Arrival</b><span id="ciReadout">—</span></div>
+      <div class="chip"><b>Departure</b><span id="coReadout">—</span></div>
+      <div class="chip"><b>Nights</b><span id="nightsReadout">—</span></div>
+    </div>
+    <div class="field-error" id="dateError">Please select both an arrival and a departure date.</div>
+  </fieldset>
+
+  <div class="btn-row">
+    <span></span>
+    <button type="button" class="btn primary" data-action="next" data-step="1">Continue</button>
+  </div>
+</section>
+
+<!-- ============ STEP 2 ============ -->
+<section class="panel step-panel" data-panel="2" hidden>
+  <div class="section-title">
+    <h2>Your Details</h2>
+    <span class="dash">– The Primary Guest –</span>
+  </div>
+  <fieldset>
+    <div class="grid two">
+      <div id="f-fname"><label for="fname">First Name <span class="req">*</span></label><input type="text" id="fname" autocomplete="given-name"><div class="field-error">First name is required.</div></div>
+      <div id="f-lname"><label for="lname">Last Name <span class="req">*</span></label><input type="text" id="lname" autocomplete="family-name"><div class="field-error">Last name is required.</div></div>
+      <div id="f-email"><label for="email">Email <span class="req">*</span></label><input type="email" id="email" autocomplete="email"><div class="field-error">Enter a valid email address.</div></div>
+      <div id="f-phone"><label for="phone">Phone <span class="req">*</span></label><input type="tel" id="phone" autocomplete="tel" placeholder="(330) 555-0100"><div class="field-error">Enter a valid phone number.</div></div>
+    </div>
+  </fieldset>
+  <fieldset>
+    <div class="grid">
+      <div><label for="notes">Anything We Should Know? <span style="color:var(--muted);font-weight:400">(optional)</span></label>
+      <textarea id="notes" placeholder="Accessibility needs, first visit, teacher you're studying with…"></textarea></div>
+    </div>
+  </fieldset>
+  <div class="btn-row">
+    <button type="button" class="btn ghost" data-action="prev" data-step="2">Back</button>
+    <button type="button" class="btn primary" data-action="next" data-step="2">Continue</button>
+  </div>
+</section>
+
+<!-- ============ STEP 3 ============ -->
+<section class="panel step-panel" data-panel="3" hidden>
+  <div class="section-title">
+    <h2>Your Party</h2>
+    <span class="dash">– Who Is Coming With You –</span>
+  </div>
+  <fieldset>
+    <div class="grid two">
+      <div id="f-occupants">
+        <label for="occupants">Total Occupants (Including You) <span class="req">*</span></label>
+        <input type="number" id="occupants" min="1" max="10" value="1">
+        <div class="field-error">Enter a party size between 1 and 10.</div>
+        <p class="hint">For parties larger than 10, please contact us directly.</p>
+      </div>
+    </div>
+  </fieldset>
+
+  <div id="partySection" style="display:none">
+    <div class="notice">
+      <strong>Why we ask:</strong> our units are one- and two-bedroom. To assign rooms respectfully, our Events team follows gender and familial privacy guidelines — telling us who each guest is and how they're related lets us place your party thoughtfully.
+    </div>
+    <div id="memberList"></div>
+  </div>
+
+  <div class="room-estimate" id="roomEstimate">
+    <div class="num" id="roomCount">1</div>
+    <div><strong>Estimated room(s) for your party</strong><br><small>Final room assignments are confirmed by the Events &amp; Rentals team based on availability and privacy guidelines.</small></div>
+  </div>
+
+  <div class="btn-row">
+    <button type="button" class="btn ghost" data-action="prev" data-step="3">Back</button>
+    <button type="button" class="btn primary" data-action="next" data-step="3">Continue</button>
+  </div>
+</section>
+
+<!-- ============ STEP 4 ============ -->
+<section class="panel step-panel" data-panel="4" hidden>
+  <div class="section-title">
+    <h2>Guest Services</h2>
+    <span class="dash">– Meals &amp; Arrival –</span>
+  </div>
+
+  <fieldset>
+    <label>Dietary Notes</label>
+    <div class="notice green" style="margin-top:.2rem">All meals prepared in the Ashrama kitchen are <strong>vegetarian</strong>, cooked fresh by our community cooks.</div>
+    <div class="grid two" style="margin-top:.8rem">
+      <div>
+        <label for="dietPref">Preference</label>
+        <select id="dietPref">
+          <option value="vegetarian">Vegetarian (standard)</option>
+          <option value="vegan">Vegan</option>
+          <option value="jain">Jain (no root vegetables)</option>
+          <option value="satvik">Satvik (no onion / garlic)</option>
+          <option value="gluten-free">Gluten-free</option>
+        </select>
+      </div>
+      <div>
+        <label for="allergies">Allergies or Restrictions</label>
+        <input type="text" id="allergies" placeholder="e.g., tree nuts, dairy">
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <label>Mode of Transportation <span class="req">*</span></label>
+    <div class="radio-cards" id="transportCards">
+      <label class="radio-card" data-mode="driving"><input type="radio" name="transport" value="driving"><span class="icon">🚗</span><span class="t">Driving</span></label>
+      <label class="radio-card" data-mode="flight"><input type="radio" name="transport" value="flight"><span class="icon">✈️</span><span class="t">Flying</span></label>
+      <label class="radio-card" data-mode="train"><input type="radio" name="transport" value="train"><span class="icon">🚆</span><span class="t">Train / Bus</span></label>
+    </div>
+    <div class="field-error" id="transportError">Please tell us how you'll be arriving.</div>
+
+    <div id="drivingExtras" style="display:none;margin-top:1rem">
+      <div class="checkline">
+        <input type="checkbox" id="parkingSpot">
+        <label for="parkingSpot">Reserve a parking spot on the Ashrama grounds for the length of my stay</label>
+      </div>
+    </div>
+
+    <div id="flightExtras" style="display:none;margin-top:1rem">
+      <div class="grid two">
+        <div><label for="flightNo">Flight Number</label><input type="text" id="flightNo" placeholder="e.g., AA 1287 into CAK / CLE"></div>
+        <div><label for="arrivalTime">Approximate Arrival Time</label><input type="text" id="arrivalTime" placeholder="e.g., 3:40 PM"></div>
+      </div>
+      <div class="checkline">
+        <input type="checkbox" id="airportPickup">
+        <label for="airportPickup">Request airport pickup (subject to volunteer availability — we'll confirm by email)</label>
+      </div>
+    </div>
+
+    <div id="trainExtras" style="display:none;margin-top:1rem">
+      <div class="grid two">
+        <div><label for="stationName">Station / Stop</label><input type="text" id="stationName" placeholder="e.g., Cleveland Amtrak"></div>
+        <div><label for="trainArrival">Approximate Arrival Time</label><input type="text" id="trainArrival" placeholder="e.g., 11:15 AM"></div>
+      </div>
+      <div class="checkline">
+        <input type="checkbox" id="stationPickup">
+        <label for="stationPickup">Request station pickup (subject to volunteer availability — we'll confirm by email)</label>
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="btn-row">
+    <button type="button" class="btn ghost" data-action="prev" data-step="4">Back</button>
+    <button type="button" class="btn primary" data-action="next" data-step="4">Continue</button>
+  </div>
+</section>
+
+<!-- ============ STEP 5 ============ -->
+<section class="panel step-panel" data-panel="5" hidden>
+  <div class="section-title">
+    <h2>Review &amp; Reserve</h2>
+    <span class="dash">– Almost Home –</span>
+  </div>
+
+  <div class="review-grid" id="reviewGrid"></div>
+
+  <div class="cost-box" id="costBox"></div>
+  <p class="hint" style="margin-top:.5rem">A 25% deposit reserves your room today; the balance is settled at check-out. Suggested contribution rates support the upkeep of the Ashrama.</p>
+
+  <div class="policy-box" tabindex="0">
+    <h4>Cancellation Policy</h4>
+    <ul>
+      <li><strong>14 or more days</strong> before arrival — full refund of your deposit.</li>
+      <li><strong>7–13 days</strong> before arrival — 50% of your deposit is refunded, or the full deposit may be applied to a future stay within 12 months.</li>
+      <li><strong>Fewer than 7 days</strong> before arrival — the deposit is retained as a contribution to the Ashrama.</li>
+      <li>Date changes are free once, subject to availability.</li>
+      <li>If the Ashrama must cancel your stay for any reason, your deposit is refunded in full.</li>
+    </ul>
+  </div>
+  <div class="checkline" id="f-policy">
+    <input type="checkbox" id="policyAgree">
+    <label for="policyAgree">I have read and agree to the cancellation policy. <span class="req">*</span></label>
+  </div>
+  <div class="field-error" id="policyError">Please agree to the cancellation policy to continue.</div>
+
+  <div class="btn-row">
+    <button type="button" class="btn ghost" data-action="prev" data-step="5">Back</button>
+    <button type="button" class="btn primary" id="submitBtn" data-action="submit">Pay Deposit &amp; Reserve</button>
+  </div>
+</section>
+
+<!-- ============ CONFIRMATION ============ -->
+<section class="panel step-panel" data-panel="6" hidden>
+  <div class="confirm">
+    <div class="mark">✓</div>
+    <h2>Your Room Awaits</h2>
+    <div class="ref" id="refCode">LG-2026-0000</div>
+    <p>Thank you — your reservation request and deposit have been received. A confirmation email with your room assignment and arrival guide is on its way to <strong id="confirmEmail"></strong>.</p>
+    <p style="margin-top:1rem;font-family:'Marcellus',serif;letter-spacing:.14em;text-transform:uppercase;color:var(--forest)">Come. Live. Serve. Awaken.</p>
+  </div>
+</section>
+
+</form>
+</main>
+
+<footer>
+  <div class="mantra">Come. Live. Serve. Awaken</div>
+  <p>Life Gurukula offers a transformative experience where individuals and families can live with intention, grow together, and make a meaningful difference in the world.</p>
+  <p>1230 W. Market St Akron OH &nbsp;·&nbsp; <a href="mailto:info@lifegurukula.org">info@lifegurukula.org</a></p>
+  <p class="fine">© Life Gurukula. All rights reserved.</p>
+</footer>
+
+<script type="module" src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sattvic Rajasic Tamasic Pie Chart</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Import Inter font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== General Page Styles ===== */
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #fafafaff;
+      margin: 20px;
+      text-align: center;
+      color: #333;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    form {
+      margin-bottom: 20px;
+    }
+
+    input, select, button {
+      margin: 5px;
+      padding: 8px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    button {
+      cursor: pointer;
+      background-color: #333;
+      color: white;
+      font-weight: 600;
+    }
+
+    /* ===== Pie Chart ===== */
+    canvas {
+      max-width: 400px;
+      margin: 20px auto;
+      display: block;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      border-radius: 8px;
+    }
+
+    /* ===== Activity Table ===== */
+    #activityTable {
+      max-width: 600px;
+      margin: 20px auto;
+      border-collapse: collapse;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      border-radius: 8px;
+      overflow: hidden;
+      table-layout: fixed;
+      width: 100%;
+    }
+
+    #activityTable th, #activityTable td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+      vertical-align: top;
+      font-family: 'Inter', sans-serif;
+    }
+
+    #activityTable th {
+      background-color: #f0f0f0;
+      font-weight: 600;
+    }
+
+    .activity-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 4px 0;
+      background: #f9f9f9;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .delete-btn {
+      background: transparent;
+      border: none;
+      color: #e06666;
+      font-weight: bold;
+      cursor: pointer;
+      margin-left: 8px;
+    }
+
+    /* ===== Logo ===== */
+    .logo {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      width: 100px;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <h2>the qualities in our life</h2>
+
+  <!-- ===== Input Form ===== -->
+  <form id="activityForm">
+    <input type="text" id="activity" placeholder="Activity (e.g. Running)" required />
+    <input type="number" id="time" placeholder="Hours" min="0.1" step="0.1" required />
+    <select id="category" required>
+      <option value="Sattvic">Sattvic</option>
+      <option value="Rajasic">Rajasic</option>
+      <option value="Tamasic">Tamasic</option>
+    </select>
+    <button type="submit">Add</button>
+  </form>
+
+  <!-- ===== Pie Chart ===== -->
+  <canvas id="pieChart"></canvas>
+
+  <!-- ===== Activity Table ===== -->
+  <table id="activityTable">
+    <thead>
+      <tr>
+        <th>Sattvic</th>
+        <th>Rajasic</th>
+        <th>Tamasic</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td id="SattvicCol"></td>
+        <td id="RajasicCol"></td>
+        <td id="TamasicCol"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ===== Logo ===== -->
+  <img src="../logo2.png" alt="Logo" class="logo">
+
+  <script>
+    /* ===== Pie Chart Setup ===== */
+    const ctx = document.getElementById('pieChart').getContext('2d');
+    const data = {
+      labels: ['Sattvic', 'Rajasic', 'Tamasic'],
+      datasets: [{
+        data: [0, 0, 0],
+        backgroundColor: ['#93c47d', '#e06666', '#1c4587']
+      }]
+    };
+
+    const pieChart = new Chart(ctx, {
+      type: 'pie',
+      data,
+      options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+    });
+
+    /* ===== Totals & Activity Tracking ===== */
+    const totals = { Sattvic: 0, Rajasic: 0, Tamasic: 0 };
+
+    // Store activities with their time and category so we can delete them properly
+    let activities = [];
+
+    /* ===== Form Submission ===== */
+    document.getElementById('activityForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const activity = document.getElementById('activity').value;
+      const time = parseFloat(document.getElementById('time').value);
+      const category = document.getElementById('category').value;
+
+      if (!time || time <= 0) return;
+
+      // Add to totals
+      totals[category] += time;
+
+      // Add to activities list
+      const activityObj = { name: activity, time, category };
+      activities.push(activityObj);
+
+      // Update UI
+      addActivityToTable(activityObj);
+      updatePieChart();
+
+      // Reset form
+      e.target.reset();
+    });
+
+    /* ===== Add Activity to Table with Delete Button ===== */
+    function addActivityToTable(activityObj) {
+      const col = document.getElementById(activityObj.category + 'Col');
+      const div = document.createElement('div');
+      div.classList.add('activity-item');
+      div.innerHTML = `
+        <span>${activityObj.name} </span>
+        <button class="delete-btn">✕</button>
+      `;
+
+      // Delete handler
+      div.querySelector('.delete-btn').addEventListener('click', () => {
+        // Remove from totals
+        totals[activityObj.category] -= activityObj.time;
+
+        // Remove from activities array
+        activities = activities.filter(a => a !== activityObj);
+
+        // Remove element from DOM
+        col.removeChild(div);
+
+        // Update pie chart
+        updatePieChart();
+      });
+
+      col.appendChild(div);
+    }
+
+    /* ===== Update Pie Chart ===== */
+    function updatePieChart() {
+      const totalTime = totals.Sattvic + totals.Rajasic + totals.Tamasic;
+      data.datasets[0].data = totalTime > 0 ? [
+        (totals.Sattvic / totalTime) * 100,
+        (totals.Rajasic / totalTime) * 100,
+        (totals.Tamasic / totalTime) * 100
+      ] : [0, 0, 0];
+      pieChart.update();
+    }
+  </script>
+</body>
+</html>

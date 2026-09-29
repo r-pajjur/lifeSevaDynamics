@@ -1,21 +1,34 @@
-# Life Gurukula Apps
+# Prema
 
-A static site holding two small apps for the community, deployed together on
+A static site holding small seva apps for the community, deployed together on
 Vercel.
 
 | Path | App | Built with |
 | --- | --- | --- |
 | `/` | Landing page | one hand-written HTML file |
 | `/jeopardy/` | Committee Jeopardy board | one hand-written HTML file |
+| `/habits-to-heroes/` | Habits to Heroes Jeopardy | one hand-written HTML file |
+| `/room-booking/` | Retreat registration | static HTML + ES modules |
+| `/seekingculture/` | Seeking Culture class activities (gunas, The Yatra) | static HTML + JS, Firebase |
 | `/wayfinder/` | Indoor wayfinding, photo by photo | Angular 19 + TypeScript, PWA |
+
+Dhara lives in its own repo (`jyoti`) because it has an API, a cron job and
+push notifications; the landing page links out to it.
+
+Every app under `site/` uses relative paths, so `vercel.json` sets
+`trailingSlash: true` — without it `/room-booking` would load its assets
+from `/` instead of `/room-booking/`.
 
 ## Layout
 
 ```
-site/            what gets served as-is
-  index.html       landing page
-  jeopardy/        the Jeopardy board (no build step, no dependencies)
-wayfinder/       Angular app (see wayfinder/README.md)
+site/              what gets served as-is (no build step)
+  index.html         landing page
+  jeopardy/          Committee Jeopardy
+  habits-to-heroes/  Habits to Heroes Jeopardy
+  room-booking/      retreat registration (moved from roomBookingLG)
+  seekingculture/    class activities (moved from seekingculture)
+wayfinder/         Angular app (see wayfinder/README.md)
 scripts/build.mjs  copies site/ and the Angular build into dist/
 dist/            build output — git-ignored, this is what Vercel serves
 ```

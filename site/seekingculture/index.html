@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Seeking Culture</title>
+  <meta name="description" content="Class activities for Seeking Culture.">
+  <style>
+    :root {
+      --bg: #f7f7f5;
+      --surface: #ffffff;
+      --ink: #1c2920;
+      --muted: #5a695b;
+      --line: #dcdfd4;
+      --accent: #2f6b3f;
+      --gold: #a8741f;
+      --radius: 14px;
+      --display: "Palatino Linotype", Palatino, Georgia, serif;
+      --body: "Segoe UI", system-ui, -apple-system, sans-serif;
+      color-scheme: light;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--bg); color: var(--ink); }
+    body { font-family: var(--body); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    .wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: calc(env(safe-area-inset-top, 0px) + 32px) 16px calc(env(safe-area-inset-bottom, 0px) + 48px);
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    header { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+    header img { width: 140px; height: auto; }
+    h1 { font-family: var(--display); font-weight: 400; font-size: clamp(2rem, 7vw, 2.8rem); line-height: 1.15; margin: 0; }
+    header p { margin: 0; color: var(--muted); }
+    .games { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 600px) { .games { grid-template-columns: 1fr; } }
+    .game {
+      display: flex; flex-direction: column; gap: 8px;
+      padding: 24px; border-radius: var(--radius);
+      background: var(--surface); border: 1px solid var(--line);
+      color: inherit; text-decoration: none;
+    }
+    .game:hover { border-color: var(--accent); }
+    .game:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+    .eyebrow { font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+    .game h2 { font-family: var(--display); font-weight: 400; font-size: 1.6rem; line-height: 1.2; margin: 0; }
+    .game p { margin: 0; color: var(--muted); }
+    .go { margin-top: auto; padding-top: 8px; color: var(--accent); font-weight: 600; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <img src="logo2.png" alt="Chinmaya Mission Cleveland-Niagara">
+      <h1>Seeking Culture</h1>
+      <p>Choose today's activity.</p>
+    </header>
+    <nav class="games" aria-label="Activities">
+      <a class="game" href="gunas/">
+        <span class="eyebrow">On your own</span>
+        <h2>The qualities in our life</h2>
+        <p>Sort how you spend your time into sattvic, rajasic and tamasic, and see the balance as a pie chart.</p>
+        <span class="go">Open →</span>
+      </a>
+      <a class="game" href="yatra/">
+        <span class="eyebrow">Breakout groups · Upadesha Sara 1</span>
+        <h2>The Yatra</h2>
+        <p>A group pilgrimage to the temple. Make the choices together, taking turns.</p>
+        <span class="go">Open →</span>
+      </a>
+    </nav>
+  </main>
+</body>
+</html>

@@ -1,0 +1,87 @@
+/* forms.css — Form shell, inputs, occupant cards, radio cards */
+
+/* ---------- form shell ---------- */
+main{max-width:880px;margin:0 auto;padding:2.4rem 1.25rem 4rem}
+.panel{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:2.4rem clamp(1.2rem,4vw,3rem) 2.6rem;
+}
+.section-title{
+  text-align:center;margin-bottom:1.9rem;
+}
+.section-title h2{
+  font-family:'Marcellus',serif;font-weight:400;
+  letter-spacing:.16em;text-transform:uppercase;
+  font-size:1.35rem;color:var(--ink);
+}
+.section-title .dash{
+  font-family:'Marcellus',serif;color:var(--gold);
+  letter-spacing:.18em;font-size:.82rem;text-transform:uppercase;
+  display:block;margin-top:.35rem;
+}
+fieldset{border:none;margin-bottom:1.4rem}
+.grid{display:grid;gap:1.1rem}
+.grid.two{grid-template-columns:1fr 1fr}
+.grid.three{grid-template-columns:1fr 1fr 1fr}
+@media(max-width:640px){ .grid.two,.grid.three{grid-template-columns:1fr} }
+label{display:block;font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem}
+label .req{color:var(--saffron)}
+input[type=text],input[type=email],input[type=tel],input[type=number],select,textarea{
+  width:100%;
+  font-family:'Mulish',sans-serif;font-size:.95rem;color:var(--ink);
+  background:var(--cream);
+  border:1px solid var(--line);border-radius:6px;
+  padding:.65rem .8rem;
+  transition:border-color .2s, box-shadow .2s;
+}
+input:focus,select:focus,textarea:focus{
+  outline:none;border-color:var(--saffron);
+  box-shadow:0 0 0 3px rgba(201,113,40,.15);
+}
+textarea{resize:vertical;min-height:90px}
+.hint{font-size:.8rem;color:var(--muted);margin-top:.3rem}
+.field-error{font-size:.8rem;color:var(--error);margin-top:.3rem;display:none}
+.invalid input,.invalid select{border-color:var(--error)}
+.invalid .field-error{display:block}
+
+.notice{
+  border-left:3px solid var(--gold);
+  background:#FCF6E8;
+  padding:.9rem 1.1rem;border-radius:0 6px 6px 0;
+  font-size:.88rem;margin:1.1rem 0;
+}
+.notice.block{border-left-color:var(--error);background:#FAEFEC}
+.notice.green{border-left-color:var(--forest);background:#EFF4EF}
+.notice strong{letter-spacing:.04em}
+
+/* ---------- occupants ---------- */
+.occupant-card{
+  border:1px solid var(--line);border-radius:8px;padding:1.1rem 1.2rem;margin-bottom:1rem;background:var(--cream);
+}
+.occupant-card h4{font-family:'Marcellus',serif;font-weight:400;letter-spacing:.1em;text-transform:uppercase;font-size:.85rem;color:var(--saffron-dark);margin-bottom:.8rem}
+.room-estimate{
+  display:flex;align-items:center;gap:1rem;
+  border:1px solid var(--line);border-radius:8px;padding:1rem 1.2rem;background:#EFF4EF;margin-top:1.2rem;
+}
+.room-estimate .num{font-family:'Marcellus',serif;font-size:2rem;color:var(--forest);line-height:1}
+.room-estimate small{color:var(--muted)}
+
+/* ---------- radio cards ---------- */
+.radio-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem}
+@media(max-width:640px){.radio-cards{grid-template-columns:1fr}}
+.radio-card input{position:absolute;opacity:0}
+.radio-card{
+  border:1px solid var(--line);border-radius:8px;padding:1rem;
+  text-align:center;cursor:pointer;background:var(--cream);
+  transition:border-color .2s, background .2s;
+  display:block;position:relative;
+}
+.radio-card .icon{font-size:1.4rem;display:block;margin-bottom:.3rem}
+.radio-card .t{font-weight:700;font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);margin-bottom:0}
+.radio-card:hover{border-color:var(--gold)}
+.radio-card.sel{border-color:var(--saffron);background:#FBF0E2;box-shadow:0 0 0 3px rgba(201,113,40,.12)}
+.checkline{display:flex;align-items:flex-start;gap:.6rem;margin:.6rem 0;font-size:.92rem}
+.checkline input{width:17px;height:17px;margin-top:.2rem;accent-color:var(--saffron)}
+.checkline label{margin:0;text-transform:none;letter-spacing:0;font-weight:400;font-size:.92rem;color:var(--ink)}

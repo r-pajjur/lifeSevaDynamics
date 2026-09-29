@@ -1,0 +1,83 @@
+/* layout.css — Utility bar, nav, hero, footer */
+
+/* ---------- top utility bar ---------- */
+.utility{
+  background:var(--forest-deep);
+  color:#EDE7DA;
+  font-size:.78rem;
+  letter-spacing:.06em;
+  padding:.45rem 1.25rem;
+  display:flex;justify-content:center;gap:1.25rem;flex-wrap:wrap;
+}
+.utility a{color:#EDE7DA;text-decoration:none}
+.utility a:hover{color:var(--gold)}
+
+/* ---------- nav ---------- */
+nav{
+  background:var(--paper);
+  border-bottom:1px solid var(--line);
+  padding:.9rem 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  position:sticky;top:0;z-index:40;
+}
+.brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;color:var(--ink)}
+.brand img{height:46px;width:auto;display:block}
+.brand .brand-text{font-family:'Marcellus',serif;font-size:1.15rem;letter-spacing:.14em;text-transform:uppercase}
+nav ul{display:flex;gap:1.6rem;list-style:none;flex-wrap:wrap}
+nav ul a{
+  text-decoration:none;color:var(--ink);
+  font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600;
+  padding-bottom:.2rem;border-bottom:2px solid transparent;
+}
+nav ul a:hover, nav ul a.active{color:var(--saffron);border-bottom-color:var(--saffron)}
+@media(max-width:760px){ nav ul{display:none} }
+
+/* ---------- hero ---------- */
+.hero{
+  background:
+    radial-gradient(ellipse 60% 90% at 50% 115%, rgba(201,162,75,.28), transparent 65%),
+    linear-gradient(180deg, var(--forest-deep), var(--forest));
+  color:#F4EEDF;
+  text-align:center;
+  padding:4.2rem 1.5rem 5.4rem;
+  position:relative;
+  overflow:hidden;
+}
+.hero .sun{
+  position:absolute;left:50%;bottom:-140px;transform:translateX(-50%);
+  width:420px;height:420px;border-radius:50%;
+  border:1px solid rgba(201,162,75,.35);
+  pointer-events:none;
+}
+.hero .sun::before{content:'';position:absolute;inset:26px;border-radius:50%;border:1px dashed rgba(201,162,75,.28)}
+.hero .sun::after{content:'';position:absolute;inset:58px;border-radius:50%;border:1px solid rgba(201,162,75,.18)}
+.hero h1{
+  font-family:'Marcellus',serif;
+  font-weight:400;
+  font-size:clamp(1.7rem, 4.4vw, 2.9rem);
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  max-width:22ch;margin:0 auto .9rem;
+  line-height:1.25;
+}
+.hero .tagline{
+  font-family:'Marcellus',serif;
+  color:var(--gold);
+  letter-spacing:.2em;
+  font-size:.95rem;
+  text-transform:uppercase;
+}
+.hero p.lede{max-width:56ch;margin:1.4rem auto 0;color:#DCD4C0;font-weight:300}
+
+/* ---------- footer ---------- */
+footer{
+  background:var(--forest-deep);color:#CFC7B4;margin-top:3rem;
+  padding:3rem 1.5rem 2rem;text-align:center;
+}
+footer .mantra{
+  font-family:'Marcellus',serif;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);font-size:1.05rem;margin-bottom:1.2rem;
+}
+footer p{font-size:.85rem;max-width:60ch;margin:0 auto .4rem}
+footer a{color:#EDE7DA}
+footer .fine{margin-top:1.6rem;font-size:.72rem;letter-spacing:.06em;color:#8FA292}

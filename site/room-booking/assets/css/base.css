@@ -1,0 +1,28 @@
+/* base.css — Design tokens, reset, base typography */
+
+:root{
+  --cream:#FBF7EF;
+  --paper:#FFFFFF;
+  --saffron:#C97128;
+  --saffron-dark:#A85A1C;
+  --gold:#C9A24B;
+  --forest:#35523E;
+  --forest-deep:#27402F;
+  --ink:#2E2721;
+  --muted:#6E6357;
+  --line:#E7DFCF;
+  --error:#A63D2F;
+  --ok:#3E6B4F;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Mulish',sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  font-size:16px;
+  line-height:1.6;
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}

@@ -1,8 +1,8 @@
 {
-  "name": "life-gurukula-apps",
+  "name": "prema",
   "private": true,
   "version": "1.0.0",
-  "description": "Static site holding the Life Gurukula community apps.",
+  "description": "Static site holding the seva apps.",
   "type": "module",
   "scripts": {
     "build": "npm --prefix wayfinder run build && node scripts/build.mjs",
