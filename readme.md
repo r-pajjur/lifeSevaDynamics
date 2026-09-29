@@ -1,4 +1,4 @@
-# Prema
+# Rasa Lila
 
 A static site holding small seva apps for the community, deployed together on
 Vercel.
